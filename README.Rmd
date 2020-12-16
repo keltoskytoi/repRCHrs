@@ -18,7 +18,7 @@ Title <- "Title of your paper goes here"
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/keltoskytoi/repRCHrs/master?urlpath=rstudio)
 
-This repository contains the data and code for our paper:
+This repository contains the data and code for my Master's thesis:
 
 > Authors, (YYYY). _`r Title`_. Name of journal/book <https://doi.org/xxx/xxx>
 
