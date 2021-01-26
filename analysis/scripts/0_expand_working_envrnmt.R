@@ -7,7 +7,7 @@ rm(list=ls())
 #please change the path to the projects library according to where you want to
 #place the R project library on you computer!
 if(Sys.info()["sysname"] == "Windows"){
-  projRootDir <- "D:/repRCHrs/"
+  projRootDir <- "E:/repRCHrs/"
 } else {
   projRootDir <- "/home/keltoskytoi/repRCHrs"
 }
@@ -15,6 +15,7 @@ if(Sys.info()["sysname"] == "Windows"){
 #+++ suplimenting the folder structure of rrtools
 paths<-link2GI::initProj(projRootDir = projRootDir,
                          projFolders = c("analysis/scripts",
+                                        "analysis/qgis",
                                          "R/", "man/", "tests/"),
                          global = TRUE,
                          path_prefix = "path_")
