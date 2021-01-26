@@ -14,6 +14,11 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: bookdown,
-    here
+    here,
+    link2GI (>= 0.4-5),
+    rrtools (>= 0.1.0)
 Suggests: devtools,
-    git2r
+    git2r,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
