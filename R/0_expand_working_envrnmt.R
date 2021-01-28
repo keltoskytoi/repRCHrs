@@ -26,6 +26,7 @@ source("E:/repRCHrs/R/00_library_n_prep.R")
 
 #if not possible to install via 'install.packages()' please install via github:
 devtools::install_github("benmarwick/rrtools")
+devtools::install_github("crsh/citr")
 devtools::install_github("Jean-Romain/rlas")
 devtools::install_github("Jean-Romain/lidR")
 BiocManager::install("EBImage")
