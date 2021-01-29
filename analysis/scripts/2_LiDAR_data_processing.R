@@ -9,7 +9,6 @@ lsLIDAR18 <- list.files(("E:/REPO/LiDAR_18/Lidar"),
                         pattern = glob2rx("*.las"),
                         full.names = TRUE)
 
-###############################TESTS ON 1 LAZ FILE##############################
 ###############################READ 1 LAZ FILE##################################
 #read with rlas####
 LIDAR_2014_1 <- rlas::read.las(lsLIDAR14[1])
@@ -41,7 +40,7 @@ print(LIDR_2014_1)
 #points       : 10.23 million points
 #density      : 10.23 points/units²
 
-#assign projection
+#assign projection#####
 sp::proj4string(LIDR_2014_1) <- sp::CRS("+init=epsg:25832")
 
 print(LIDR_2014_1)
@@ -53,6 +52,7 @@ print(LIDR_2014_1)
 #points       : 10.23 million points
 #density      : 10.23 points/m²
 
+#summary####
 summary(LIDR_2014_1)
 #class        : LAS (v1.3 format 1)
 #memory       : 780.3 Mb
@@ -89,10 +89,10 @@ summary(LIDR_2014_1)
 #plot in pointcloud viewer
 #plot(LIDR_2014_1, bg = "green", color = "Z",colorPalette = terrain.colors(256),backend="pcv")
 
-##################################CHECK DATA QUALITY############################
+#check data quality####
 #before getting started it is always good to check the data quality
 
-lascheck(LIDR_2014_1)
+las_check(LIDR_2014_1)
 #⚠ 402 points are duplicated and share XYZ coordinates with other points
 #⚠ There were 370 degenerated ground points. Some X Y Z coordinates were repeated.
 #⚠ There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates.
@@ -103,10 +103,10 @@ lascheck(LIDR_2014_1)
 ################################################################################
 #########################CLASSIFICATION OF GROUND POINTS########################
 #set the number of threads/cores lidR should use
-getDTthreads() #4
+getDTthreads() #6
 lidR::set_lidr_threads(4)
 
-#selecting and filtering the pointcloud####
+#get to know the pointcloud####
 
 #LAS stores x,y,z for each point + many other information=attributes and this
 #can take a lot of of memory from the PC
@@ -130,30 +130,43 @@ names(LIDR_2014_1@data)
 #reading the file thus saving memory and computation time - it the same as when reading
 #the las file and then filtering the pint cloud
 
-                    ####USING THE POINT CLASSIFICATIONS####
+                    ####USING POINT CLASSIFICATIONS####
+LIDAR_2014_1_ground <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc", filter ="keep_class 2")
 
-LIDAR_2014_1_ground <- lidR::readLAS(lsLIDAR14[1], select = "xyzrnc", filter ="keep_class 2")
-
-dtm_2014_1_ground_tin05 <- grid_terrain(LIDAR_2014_1_ground, res = 0.1, algorithm = tin())
+dtm_2014_1_ground_tin01 <- grid_terrain(LIDAR_2014_1_ground, res = 0.1, algorithm = tin())
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
-print(dtm_2014_1_ground_tin05)
-#assign projection
-sp::proj4string(dtm_2014_1_ground_tin05) <- sp::CRS("+init=epsg:25832")
-raster::writeRaster(dtm_2014_1_ground_tin05, paste0(path_tests, "test_dtm_2014_1_ground_tin05.tif"), overwrite = TRUE)
-crs(LIDA)
 
-               ####PROGRESSIVE MORPHOLOGICAL FILTER####
+print(dtm_2014_1_ground_tin01)
+#class      : RasterLayer
+#dimensions : 10000, 10000, 1e+08  (nrow, ncol, ncell)
+#resolution : 0.1, 0.1  (x, y)
+#extent     : 478000, 479000, 5616000, 5617000  (xmin, xmax, ymin, ymax)
+#crs        : NA
+#source     : memory
+#names      : Z
+#values     : 166.088, 237.402  (min, max)
+
+#assign projection
+sp::proj4string(dtm_2014_1_ground_tin01) <- sp::CRS("+init=epsg:25832")
+
+#write/export as raster
+raster::writeRaster(dtm_2014_1_ground_tin01, file.path(path_tests,
+                                                       "test_dtm_2014_1_ground_tin01.tif"),
+                                                        format = "GTiff", overwrite = TRUE)
+
+
+                ####PROGRESSIVE MORPHOLOGICAL FILTER####
 #based on Zhang et al 2013, but applied to a point cloud
 
 #read a selected pointcloud: x,y,z, return number and number of returns, classification
-LIDR_2014_11 <- lidR::readLAS(lsLIDAR14[1], select = "xyzrnc")
-print(LIDR_2014_11)
+LIDR_2014_1_xyzirnc <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc")
+print(LIDR_2014_1_xyzirnc)
 #assign projection
-sp::proj4string(LIDR_2014_11) <- sp::CRS("+init=epsg:25832")
-crs(LIDR_2014_11) #+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs
+sp::proj4string(LIDR_2014_1_xyzirnc) <- sp::CRS("+init=epsg:25832")
+crs(LIDR_2014_1_xyzirnc) #+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs
 
-print(LIDR_2014_11)
+print(LIDR_2014_1_xyzirnc)
 #class        : LAS (v1.3 format 1)
 #memory       : 312.1 Mb
 #extent       : 478000, 479000, 5616000, 5617000 (xmin, xmax, ymin, ymax)
@@ -163,7 +176,7 @@ print(LIDR_2014_11)
 #density      : 10.23 points/m²
 
 #first let's test a first morphological filter:
-LIDR_2014_1_pmf <- classify_ground(LIDR_2014_11, algorithm = pmf(ws = 5, th = 3))
+LIDR_2014_1_pmf <- classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 3))
 plot(LIDR_2014_1_pmf, color = "Classification", size = 3, bg = "white")
 
 #make a cross section and check the classification results:
@@ -191,7 +204,7 @@ plot_crossection(las_clipped2, colour_by = factor(Classification))
 #if the filtering is not perfect, let's do:
 ws <- seq(3, 12, 3)
 th <- seq(0.1, 1.5, length.out = length(ws))
-LIDR_2014_1_pmf_seq <- classify_ground(LIDR_2014_11, algorithm = pmf(ws = ws, th = th))
+LIDR_2014_1_pmf_seq <- classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = ws, th = th))
 
 las_clipped3 <- clip_transect(LIDR_2014_1_pmf_seq, point1, point2, width = 4, xz = TRUE)
 ggplot(LIDR_2014_1_pmf_seq@data, aes(X,Z, color = Z)) +
@@ -269,69 +282,3 @@ plot_dtm3d(dtm_idw, bg = "white")
 dtm_kriging <- grid_terrain(las, algorithm = kriging(k = 40))
 plot_dtm3d(dtm_kriging, bg = "white")
 
-##########################APPLICATION TO THE WHOLE DATASET#########################
-################################BUILD A LAZ CATALOG###############################
-#we have multiple LAZ files, so it is best to write them in a catalog
-
-#define projection - EPSG 25832 ETRS89/UTM 32N
-#check projection!
-
-LIDAR_2014_catalog <-  lidR::readLAScatalog(laz_files)
-#set the projection of the lidR catalog
-sp::proj4string(LIDAR_2014_catalog) <- sp::CRS("+init=epsg:25832")
-#paralellize the work
-future::plan(multisession, workers = 2L)
-#set the number of threads lidR should use
-lidR::set_lidr_threads(4)
-
-#summary of the catalog
-summary(LIDAR_2014_catalog)
-#class       : LAScatalog (v1.3 format 1)
-#extent      : 477996.1, 489000, 5616000, 5635000 (xmin, xmax, ymin, ymax)
-#coord. ref. : ETRS89 / UTM zone 32N
-#area        : 209 km²
-#points      : 2.39billion points
-#density     : 11.4 points/m²
-#num. files  : 209
-#proc. opt.  : buffer: 30 | chunk: 0
-#input opt.  : select: * | filter:
-#  output opt. : in memory | w2w guaranteed | merging enabled
-#drivers     :
-#  - Raster : format = GTiff  NAflag = -999999
-#- LAS : no parameter
-#- Spatial : overwrite = FALSE
-#- SimpleFeature : quiet = TRUE
-#- DataFrame : no parameter
-
-las_check(LIDAR_2014_catalog)
-#Checking headers consistency
-#- Checking file version consistency... ✓
-#- Checking scale consistency...
-#⚠ Inconsistent scale factors
-#- Checking offset consistency...
-#⚠ Inconsistent offsets
-#- Checking point type consistency... ✓
-#- Checking VLR consistency... ✓
-#- Checking CRS consistency... ✓
-#Checking the headers
-#- Checking scale factor validity... ✓
-#- Checking Point Data Format ID validity... ✓
-#Checking preprocessing already done
-#- Checking negative outliers... ✓
-#- Checking normalization... no
-#Checking the geometry
-#- Checking overlapping tiles... ✓
-#- Checking point indexation... no
-
-#set variables for the lidR catalog####
-#chunk size in which lidR should process: 14 x 40 = 560
-lidR::opt_chunk_size(LIDAR_2014_catalog) <- 560
-#lidR::opt_chunk_buffer() -> default: 30
-
-#enable to overwrite result when processed again
-LIDAR_2014_catalog@output_options$drivers$Raster$param$overwrite <- TRUE
-
-# add output filename template
-lidR::opt_output_files(LIDAR_2014_catalog) <- paste0(path_normalized,"/{ID}_norm")
-
-#cloud_metrics(LIDAR_2014_catalog)
