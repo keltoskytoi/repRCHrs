@@ -9,6 +9,12 @@ lsLIDAR18 <- list.files(("E:/REPO/LiDAR_18/Lidar"),
                         pattern = glob2rx("*.las"),
                         full.names = TRUE)
 
+#define points for cross section:
+point1 <- c(478000, 5616000) #xy
+point2 <- c(4785000, 5616500) #xy
+point3 <- c(478500, 5616500) #xy
+point4 <- c(479000, 5617000) #xy
+
 ###############################READ 1 LAZ FILE##################################
 #read with rlas####
 LIDAR_2014_1 <- rlas::read.las(lsLIDAR14[1])
@@ -101,7 +107,7 @@ las_check(LIDR_2014_1)
 #- Checking normalization... no
 
 ################################################################################
-#########################CLASSIFICATION OF GROUND POINTS########################
+#########################(RE)CLASSIFICATION OF GROUND POINTS########################
 #set the number of threads/cores lidR should use
 getDTthreads() #6
 lidR::set_lidr_threads(4)
@@ -130,155 +136,324 @@ names(LIDR_2014_1@data)
 #reading the file thus saving memory and computation time - it the same as when reading
 #the las file and then filtering the pint cloud
 
-                    ####USING POINT CLASSIFICATIONS####
-LIDAR_2014_1_ground <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc", filter ="keep_class 2")
-
-dtm_2014_1_ground_tin01 <- grid_terrain(LIDAR_2014_1_ground, res = 0.1, algorithm = tin())
-#1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
-#2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
-
-print(dtm_2014_1_ground_tin01)
-#class      : RasterLayer
-#dimensions : 10000, 10000, 1e+08  (nrow, ncol, ncell)
-#resolution : 0.1, 0.1  (x, y)
-#extent     : 478000, 479000, 5616000, 5617000  (xmin, xmax, ymin, ymax)
-#crs        : NA
-#source     : memory
-#names      : Z
-#values     : 166.088, 237.402  (min, max)
-
-#assign projection
-sp::proj4string(dtm_2014_1_ground_tin01) <- sp::CRS("+init=epsg:25832")
-
-#write/export as raster
-raster::writeRaster(dtm_2014_1_ground_tin01, file.path(path_tests,
-                                                       "test_dtm_2014_1_ground_tin01.tif"),
-                                                        format = "GTiff", overwrite = TRUE)
-
-
-                ####PROGRESSIVE MORPHOLOGICAL FILTER####
-#based on Zhang et al 2013, but applied to a point cloud
-
-#read a selected pointcloud: x,y,z, return number and number of returns, classification
+#read a selected pointcloud: x,y,z, return number and number of returns, intensity, classification
 LIDR_2014_1_xyzirnc <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc")
-print(LIDR_2014_1_xyzirnc)
+
+print(LIDR_2014_1_xyzirnc) #no CRS
+
 #assign projection
 sp::proj4string(LIDR_2014_1_xyzirnc) <- sp::CRS("+init=epsg:25832")
 crs(LIDR_2014_1_xyzirnc) #+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs
 
 print(LIDR_2014_1_xyzirnc)
-#class        : LAS (v1.3 format 1)
-#memory       : 312.1 Mb
-#extent       : 478000, 479000, 5616000, 5617000 (xmin, xmax, ymin, ymax)
-#coord. ref.  : ETRS89 / UTM zone 32N
-#area         : 1 km²
-#points       : 10.23 million points
-#density      : 10.23 points/m²
 
-#first let's test a first morphological filter:
-LIDR_2014_1_pmf <- classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 3))
-plot(LIDR_2014_1_pmf, color = "Classification", size = 3, bg = "white")
+                    ####USING POINT CLASSIFICATION####
+LIDR_2014_1_ground <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc", filter ="keep_class 2")
+
+print(LIDR_2014_1_ground)
+#class        : LAS (v1.3 format 1)
+#memory       : 429.2 Mb
+#extent       : 478000, 479000, 5616000, 5617000 (xmin, xmax, ymin, ymax)
+#coord. ref.  : NA
+#area         : 1 kunits²
+#points       : 10.23 million points
+#density      : 10.23 points/units²
+
+#assign projection
+sp::proj4string(LIDR_2014_1_ground) <- sp::CRS("+init=epsg:25832")
+
+
+                ####PROGRESSIVE MORPHOLOGICAL FILTER####
+          #based on Zhang et al 2013, but applied to a point cloud
+
+#first let's test a simple morphological filter (see LidRbook)####
+LIDR_2014_1_xyzirnc_pmf <- classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 3))
+#Original dataset already contains 7718079 ground points. These points were
+#reclassified as 'unclassified' before performing a new ground classification.
+
+plot(LIDR_2014_1_xyzirnc_pmf, color = "Classification", size = 3, bg = "white")
 
 #make a cross section and check the classification results:
-point1 <- c(478000, 5616000) #xy
-point2 <- c(4785000, 5616500) #xy
-las_clipped <- clip_transect(LIDR_2014_11_pmf, point1, point2, width = 4, xz = TRUE)
-ggplot(las_clipped@data, aes(X,Z, color = Z)) +
+LIDR_2014_1_xyzirnc_pmf_clipped <- clip_transect(LIDR_2014_1_xyzirnc_pmf, point1, point2, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_clipped@data, aes(X,Z, color = Z)) +
   geom_point(size = 0.5) +
   coord_equal() +
   theme_minimal() +
   scale_color_gradientn(colours = height.colors(50))
 
-point3 <- c(478500, 5616500) #xy
-point4 <- c(479000, 5617000) #xy
-las_clipped2 <- clip_transect(LIDR_2014_11_pmf, point3, point4, width = 4, xz = TRUE)
-ggplot(las_clipped2@data, aes(X,Z, color = Z)) +
+LIDR_2014_1_xyzirnc_pmf_clipped2 <- clip_transect(LIDR_2014_1_xyzirnc_pmf, point3, point4, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_clipped2@data, aes(X,Z, color = Z)) +
   geom_point(size = 0.5) +
   coord_equal() +
   theme_minimal() +
   scale_color_gradientn(colours = height.colors(50))
 
-plot_crossection(las_clipped, colour_by = factor(Classification))
-plot_crossection(las_clipped2, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_clipped, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_clipped2, colour_by = factor(Classification))
 
-#if the filtering is not perfect, let's do:
+#what about using a sequence####
 ws <- seq(3, 12, 3)
 th <- seq(0.1, 1.5, length.out = length(ws))
-LIDR_2014_1_pmf_seq <- classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = ws, th = th))
+LIDR_2014_1_xyzirnc_pmf_seq <- classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = ws, th = th))
+#Original dataset already contains 7718079 ground points. These points were
+#reclassified as 'unclassified' before performing a new ground classification.
 
-las_clipped3 <- clip_transect(LIDR_2014_1_pmf_seq, point1, point2, width = 4, xz = TRUE)
-ggplot(LIDR_2014_1_pmf_seq@data, aes(X,Z, color = Z)) +
+LIDR_2014_1_xyzirnc_pmf_seq_clipped3 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_seq, point1, point2, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_seq_clipped3@data, aes(X,Z, color = Z)) +
   geom_point(size = 0.5) +
   coord_equal() +
   theme_minimal() +
   scale_color_gradientn(colours = height.colors(50))
 
-las_clipped4 <- clip_transect(LIDR_2014_1_pmf_seq, point3, point4, width = 4, xz = TRUE)
-ggplot(LIDR_2014_1_pmf_seq@data, aes(X,Z, color = Z)) +
+LIDR_2014_1_xyzirnc_pmf_seq_clipped4 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_seq, point3, point4, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_seq_clipped4@data, aes(X,Z, color = Z)) +
   geom_point(size = 0.5) +
   coord_equal() +
   theme_minimal() +
   scale_color_gradientn(colours = height.colors(50))
+
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_seq_clipped3, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_seq_clipped4, colour_by = factor(Classification))
+#it did not classify all ground points
 
                           ####CLOTH SIMULATION FUNCTION####
-testcsf <- csf(sloop_smooth = TRUE, class_threshold = 1, cloth_resolution = 1, time_step = 1)
-LIDR_2014_1_csf <- classify_ground(LIDR_2014_11, testcsf)
-plot(LIDR_2014_1_csf, color = "Classification", size = 3, bg = "white")
-plot_crossection(LIDR_2014_1_csf, p1 = point1, p2 = point2, colour_by = factor(Classification))
+                            #based on Zhang et al 2016
+#default settings of csf####
+LIDR_2014_1_xyzirnc_csf <- classify_ground(LIDR_2014_1_xyzirnc, algorithm = csf())
+#Original dataset already contains 7718079 ground points. These points were
+#reclassified as 'unclassified' before performing a new ground classification
 
+plot(LIDR_2014_1_xyzirnc_csf, color = "Classification", size = 3, bg = "white")
+
+#make a cross section and check the classification results:
+LIDR_2014_1_xyzirnc_csf_clipped <- clip_transect(LIDR_2014_1_xyzirnc_csf, point1, point2, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_csf_clipped@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+LIDR_2014_1_xyzirnc_csf_clipped2 <- clip_transect(LIDR_2014_1_xyzirnc_csf, point3, point4, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_csf_clipped2@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+plot_crossection(LIDR_2014_1_xyzirnc_csf_clipped, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_csf_clipped2, colour_by = factor(Classification))
+
+#settings of csf from LidRbook - even though it looks good, a check if it can be made better!####
+csf_1 <- csf(sloop_smooth = TRUE, class_threshold = 1, cloth_resolution = 1, time_step = 1)
+LIDR_2014_1_xyzirnc_csf2 <- classify_ground(LIDR_2014_1_xyzirnc, csf_1)
+
+
+plot(LIDR_2014_1_xyzirnc_csf2, color = "Classification", size = 3, bg = "white")
+
+#make a cross section and check the classification results:
+LIDR_2014_1_xyzirnc_csf2_clipped <- clip_transect(LIDR_2014_1_xyzirnc_csf2, point1, point2, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_csf2_clipped@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+LIDR_2014_1_xyzirnc_csf2_clipped2 <- clip_transect(LIDR_2014_1_xyzirnc_csf2, point3, point4, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_csf2_clipped2@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+plot_crossection(LIDR_2014_1_xyzirnc_csf2_clipped, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_csf2_clipped2, colour_by = factor(Classification))
+#it does not seem to make such a big difference!
 
 ##################################DTM GENERAtion################################
-#Triangular Irregular Network (TIN)####
-dtm_tin05 <- grid_terrain(LIDR_2014_1_pmf, res = 0.5, algorithm = tin())
+#the classified point clouds, which are found to be useful:####
+LIDR_2014_1_ground
+LIDR_2014_1_xyzirnc_pmf
+LIDR_2014_1_xyzirnc_csf
+
+#one question is still lingering around: which resolution should be used?
+#well, because quite huge data sets are going to be used, the tiles should not be too big
+#in the following different resolutions have been computed and even if one thrives to
+#work with VHR resolution, the question is: is it worth it? do we see more of a 3 m
+#object in a 5 cm resolution image than in a 10 cm one? For comparison:
+#a 5 cm resolution DTM is 1 GB
+#a 10 cm resolution raster is 300 MB
+#in the 2014 data set there are 209 tiles (~ 8 GB)
+#in the 2018 data set are 45 tiles (~ 160 GB)
+
+                 ###Triangular Irregular Network (TIN)####
+
+#using the point classification####
+#0.1m####
+LIDR_2014_1_ground_tin01 <- grid_terrain(LIDR_2014_1_ground, res = 0.1, algorithm = tin())
+#1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
+#2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
+
+#check raster
+print(LIDR_2014_1_ground_tin01)
+#class      : RasterLayer
+#dimensions : 10000, 10000, 1e+08  (nrow, ncol, ncell)
+#resolution : 0.1, 0.1  (x, y)
+#extent     : 478000, 479000, 5616000, 5617000  (xmin, xmax, ymin, ymax)
+#crs        : +proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs
+#source     : memory
+#names      : Z
+#values     : 166.088, 237.402  (min, max)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_ground_tin01, file.path(path_tests,
+                                                       "dtm_2014_1_ground_tin_01.tif"),
+                                                       format = "GTiff", overwrite = TRUE)
+#0.05m####
+LIDR_2014_1_ground_tin005 <- grid_terrain(LIDR_2014_1_ground, res = 0.05, algorithm = tin())
+#1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
+#2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
+
+print(LIDR_2014_1_ground_tin005)
+raster::writeRaster(LIDR_2014_1_ground_tin005, file.path(path_tests,
+                                                       "dtm_2014_1_ground_tin_005.tif"),
+                                                       format = "GTiff", overwrite = TRUE)
+
+#Progressive Morphological Filter####
+#0.5 m####
+LIDR_2014_1_xyzirnc_pmf_tin05 <- grid_terrain(LIDR_2014_1_xyzirnc_pmf, res = 0.5, algorithm = tin())
 #Warning messages:
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
-plot_dtm3d(dtm_tin05, bg = "white")
-crs(dtm_tin05)
-#CRS arguments:
-#+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs
-print(dtm_tin05)
-raster::writeRaster(dtm_tin05, paste0(path_REPO_LidR_tes, "test_2014_1_tin_05.tif"), overwrite = TRUE)
 
-dtm_tin02 <- grid_terrain(LIDR_2014_1_pmf, res = 0.2, algorithm = tin())
+#check raster
+print(LIDR_2014_1_xyzirnc_pmf_tin05)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_tin05, paste0(path_tests,
+                                                          "dtm_2014_1_pmf_tin_05.tif"),
+                                                          format = "GTiff", overwrite = TRUE)
+
+#0.2 m####
+LIDR_2014_1_xyzirnc_pmf_tin02 <- grid_terrain(LIDR_2014_1_xyzirnc_pmf, res = 0.2, algorithm = tin())
 #Warning messages:
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
-plot_dtm3d(dtm_tin02, bg = "white")
-crs(dtm_tin02)
-#CRS arguments:
-#+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs
-print(dtm_tin02)
-raster::writeRaster(dtm_tin02, paste0(path_REPO_LidR_tes, "test_2014_1_tin_02.tif"), overwrite = TRUE)
 
-dtm_tin01 <- grid_terrain(LIDR_2014_1_pmf, res = 0.1, algorithm = tin())
+#check raster
+print(LIDR_2014_1_xyzirnc_pmf_tin02)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_tin02, paste0(path_tests, "dtm_2014_1_pmf_tin_02.tif"), overwrite = TRUE)
+
+#0.1 m####
+LIDR_2014_1_xyzirnc_pmf_tin01 <- grid_terrain(LIDR_2014_1_xyzirnc_pmf, res = 0.1, algorithm = tin())
 #Warning messages:
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
-plot_dtm3d(dtm_tin01, bg = "white")
-crs(dtm_tin01)
-#CRS arguments:
-#+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs
-print(dtm_tin01)
-raster::writeRaster(dtm_tin01, paste0(path_REPO_LidR_tes, "test_2014_1_tin_01.tif"), overwrite = TRUE)
 
-dtm_tin001 <- grid_terrain(LIDR_2014_1_pmf, res = 0.01, algorithm = tin())
-#Fehler: kann Vektor der Größe 37.3 GB nicht allozieren
-#Warning messages:
+#check raster
+print(LIDR_2014_1_xyzirnc_pmf_tin01)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_tin01, paste0(path_tests, "dtm_2014_1_pmf_tin_01.tif"), overwrite = TRUE)
+
+#0.05m####
+LIDR_2014_1_xyzirnc_pmf_dtm_tin005 <- grid_terrain(LIDR_2014_1_xyzirnc_pmf, res = 0.05, algorithm = tin())
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
-plot_dtm3d(dtm_tin01, bg = "white")
-crs(dtm_tin01)
-#CRS arguments:
-#+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs
-print(dtm_tin01)
-raster::writeRaster(dtm_tin01, paste0(path_REPO_LidR_tes, "test_2014_1_tin_01.tif"), overwrite = TRUE)
 
-#Invert Distance Weighting####
-dtm_idw <- grid_terrain(las, algorithm = knnidw(k = 10L, p = 2))
-plot_dtm3d(dtm_idw, bg = "white")
+#check raster
+print(LIDR_2014_1_xyzirnc_pmf_dtm_tin005)
 
-#Kriging####
-dtm_kriging <- grid_terrain(las, algorithm = kriging(k = 40))
-plot_dtm3d(dtm_kriging, bg = "white")
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_dtm_tin005, paste0(path_tests, "dtm_2014_1_pmf_tin_005.tif"), overwrite = TRUE)
 
+
+#Cloth Simulation Function####
+LIDR_2014_1_xyzirnc_csf_tin01 <- grid_terrain(LIDR_2014_1_xyzirnc_csf, res = 0.1, algorithm = tin())
+#Warning messages:
+#1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
+#2: There were 2262 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
+
+#check raster
+print(LIDR_2014_1_xyzirnc_csf_tin01)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_xyzirnc_csf_tin01, paste0(path_tests, "dtm_2014_1_csf_tin_01.tif"), overwrite = TRUE)
+
+                     ###Invert Distance Weighting####
+#using the point classification####
+LIDR_2014_1_ground_idw01 <- grid_terrain(LIDR_2014_1_ground, res= 0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+#1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
+#2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
+
+#check raster
+print(LIDR_2014_1_ground_idw01)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_ground_idw01, paste0(path_tests,
+                                                     "dtm_2014_1_ground_idw_01.tif"),
+                                                      format = "GTiff", overwrite = TRUE)
+
+#Progressive Morphological Filter####
+LIDR_2014_1_xyzirnc_pmf_idw01 <- grid_terrain(LIDR_2014_1_xyzirnc_pmf, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+#1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
+#2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
+
+#check raster
+print(LIDR_2014_1_xyzirnc_pmf_idw01)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_idw01, paste0(path_tests,
+                                                          "dtm_2014_1_xyzirnc_pmf_idw_01.tif"),
+                                                           format = "GTiff", overwrite = TRUE)
+#Cloth Simulation Function####
+LIDR_2014_1_xyzirnc_csf_idw01 <- grid_terrain(LIDR_2014_1_xyzirnc_csf, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+#1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
+#2: There were 2262 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
+
+#check raster
+print(LIDR_2014_1_xyzirnc_csf_idw01)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_xyzirnc_csf_idw01, paste0(path_tests,
+                                                          "dtm_2014_1_xyzirnc_csf_idw_01.tif"),
+                                                           format = "GTiff", overwrite = TRUE)
+
+                          ####Kriging####
+
+#using the point classification####
+LIDR_2014_1_ground_krig01 <- grid_terrain(LIDR_2014_1_ground, res= 0.1, algorithm = kriging())
+#
+
+#check raster
+print(LIDR_2014_1_ground_krig01)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_ground_krig01, paste0(path_tests,
+                                                     "dtm_2014_1_ground_krig_01.tif"),
+                                                      format = "GTiff", overwrite = TRUE)
+
+#Progressive Morphological Filter####
+LIDR_2014_1_xyzirnc_pmf_krig01 <- grid_terrain(LIDR_2014_1_xyzirnc_pmf, res=0.1, algorithm = kriging())
+#
+
+#check raster
+print(LIDR_2014_1_xyzirnc_pmf_krig01)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_krig01, paste0(path_tests,
+                                                           "dtm_2014_1_xyzirnc_pmf_krig_01.tif"),
+                                                            format = "GTiff", overwrite = TRUE)
+
+#Cloth Simulation Function####
+LIDR_2014_1_xyzirnc_csf_krig01 <- grid_terrain(LIDR_2014_1_xyzirnc_csf, res=0.1, algorithm = kriging())
+#
+
+#check raster
+print(LIDR_2014_1_xyzirnc_csf_krig01)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_xyzirnc_csf_krig01, paste0(path_tests,
+                                                           "dtm_2014_1_xyzirnc_csf_krig_01.tif"),
+                                                           format = "GTiff", overwrite = TRUE)
