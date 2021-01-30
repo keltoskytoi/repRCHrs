@@ -9,9 +9,13 @@ lsLIDAR18 <- list.files(("E:/REPO/LiDAR_18/Lidar"),
                         pattern = glob2rx("*.las"),
                         full.names = TRUE)
 
+lsDTMs <- list.files(("E:/REPO/LidR_test"),
+                        pattern = glob2rx("*.tif"),
+                        full.names = TRUE)
+
 #define points for cross section:
 point1 <- c(478000, 5616000) #xy
-point2 <- c(4785000, 5616500) #xy
+point2 <- c(478500, 5616500) #xy
 point3 <- c(478500, 5616500) #xy
 point4 <- c(479000, 5617000) #xy
 
@@ -171,7 +175,7 @@ LIDR_2014_1_xyzirnc_pmf <- classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(
 #Original dataset already contains 7718079 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
 
-plot(LIDR_2014_1_xyzirnc_pmf, color = "Classification", size = 3, bg = "white")
+#plot(LIDR_2014_1_xyzirnc_pmf, color = "Classification", size = 3, bg = "white")
 
 #make a cross section and check the classification results:
 LIDR_2014_1_xyzirnc_pmf_clipped <- clip_transect(LIDR_2014_1_xyzirnc_pmf, point1, point2, width = 4, xz = TRUE)
@@ -223,7 +227,7 @@ LIDR_2014_1_xyzirnc_csf <- classify_ground(LIDR_2014_1_xyzirnc, algorithm = csf(
 #Original dataset already contains 7718079 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification
 
-plot(LIDR_2014_1_xyzirnc_csf, color = "Classification", size = 3, bg = "white")
+#plot(LIDR_2014_1_xyzirnc_csf, color = "Classification", size = 3, bg = "white")
 
 #make a cross section and check the classification results:
 LIDR_2014_1_xyzirnc_csf_clipped <- clip_transect(LIDR_2014_1_xyzirnc_csf, point1, point2, width = 4, xz = TRUE)
@@ -247,8 +251,7 @@ plot_crossection(LIDR_2014_1_xyzirnc_csf_clipped2, colour_by = factor(Classifica
 csf_1 <- csf(sloop_smooth = TRUE, class_threshold = 1, cloth_resolution = 1, time_step = 1)
 LIDR_2014_1_xyzirnc_csf2 <- classify_ground(LIDR_2014_1_xyzirnc, csf_1)
 
-
-plot(LIDR_2014_1_xyzirnc_csf2, color = "Classification", size = 3, bg = "white")
+#plot(LIDR_2014_1_xyzirnc_csf2, color = "Classification", size = 3, bg = "white")
 
 #make a cross section and check the classification results:
 LIDR_2014_1_xyzirnc_csf2_clipped <- clip_transect(LIDR_2014_1_xyzirnc_csf2, point1, point2, width = 4, xz = TRUE)
@@ -306,16 +309,19 @@ print(LIDR_2014_1_ground_tin01)
 
 #write/export as raster
 raster::writeRaster(LIDR_2014_1_ground_tin01, file.path(path_tests,
-                                                       "dtm_2014_1_ground_tin_01.tif"),
+                                                       "dtm_2014_1_xyzirnc_ground_tin_01.tif"),
                                                        format = "GTiff", overwrite = TRUE)
 #0.05m####
 LIDR_2014_1_ground_tin005 <- grid_terrain(LIDR_2014_1_ground, res = 0.05, algorithm = tin())
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
+#check raster
 print(LIDR_2014_1_ground_tin005)
+
+#write/export as raster
 raster::writeRaster(LIDR_2014_1_ground_tin005, file.path(path_tests,
-                                                       "dtm_2014_1_ground_tin_005.tif"),
+                                                       "dtm_2014_1_xyzirnc_ground_tin_005.tif"),
                                                        format = "GTiff", overwrite = TRUE)
 
 #Progressive Morphological Filter####
@@ -330,7 +336,7 @@ print(LIDR_2014_1_xyzirnc_pmf_tin05)
 
 #write/export as raster
 raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_tin05, paste0(path_tests,
-                                                          "dtm_2014_1_pmf_tin_05.tif"),
+                                                          "dtm_2014_1_xyzirnc_1_pmf_tin_05.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.2 m####
@@ -343,7 +349,7 @@ LIDR_2014_1_xyzirnc_pmf_tin02 <- grid_terrain(LIDR_2014_1_xyzirnc_pmf, res = 0.2
 print(LIDR_2014_1_xyzirnc_pmf_tin02)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_tin02, paste0(path_tests, "dtm_2014_1_pmf_tin_02.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_tin02, paste0(path_tests, "dtm_2014_1_xyzirnc_pmf_tin_02.tif"), overwrite = TRUE)
 
 #0.1 m####
 LIDR_2014_1_xyzirnc_pmf_tin01 <- grid_terrain(LIDR_2014_1_xyzirnc_pmf, res = 0.1, algorithm = tin())
@@ -355,7 +361,7 @@ LIDR_2014_1_xyzirnc_pmf_tin01 <- grid_terrain(LIDR_2014_1_xyzirnc_pmf, res = 0.1
 print(LIDR_2014_1_xyzirnc_pmf_tin01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_tin01, paste0(path_tests, "dtm_2014_1_pmf_tin_01.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_tin01, paste0(path_tests, "dtm_2014_1_xyzirnc_pmf_tin_01.tif"), overwrite = TRUE)
 
 #0.05m####
 LIDR_2014_1_xyzirnc_pmf_dtm_tin005 <- grid_terrain(LIDR_2014_1_xyzirnc_pmf, res = 0.05, algorithm = tin())
@@ -366,7 +372,7 @@ LIDR_2014_1_xyzirnc_pmf_dtm_tin005 <- grid_terrain(LIDR_2014_1_xyzirnc_pmf, res 
 print(LIDR_2014_1_xyzirnc_pmf_dtm_tin005)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_dtm_tin005, paste0(path_tests, "dtm_2014_1_pmf_tin_005.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_dtm_tin005, paste0(path_tests, "dtm_2014_1_xyzirnc_pmf_tin_005.tif"), overwrite = TRUE)
 
 
 #Cloth Simulation Function####
@@ -379,7 +385,7 @@ LIDR_2014_1_xyzirnc_csf_tin01 <- grid_terrain(LIDR_2014_1_xyzirnc_csf, res = 0.1
 print(LIDR_2014_1_xyzirnc_csf_tin01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf_tin01, paste0(path_tests, "dtm_2014_1_csf_tin_01.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_1_xyzirnc_csf_tin01, paste0(path_tests, "dtm_2014_1_xyzirnc_csf_tin_01.tif"), overwrite = TRUE)
 
                      ###Invert Distance Weighting####
 #using the point classification####
@@ -392,7 +398,7 @@ print(LIDR_2014_1_ground_idw01)
 
 #write/export as raster
 raster::writeRaster(LIDR_2014_1_ground_idw01, paste0(path_tests,
-                                                     "dtm_2014_1_ground_idw_01.tif"),
+                                                     "dtm_2014_1_xyzirnc_ground_idw_01.tif"),
                                                       format = "GTiff", overwrite = TRUE)
 
 #Progressive Morphological Filter####
@@ -420,8 +426,22 @@ raster::writeRaster(LIDR_2014_1_xyzirnc_csf_idw01, paste0(path_tests,
                                                           "dtm_2014_1_xyzirnc_csf_idw_01.tif"),
                                                            format = "GTiff", overwrite = TRUE)
 
-                          ####Kriging####
 
+LIDR_2014_1_xyzirnc_csf_idw01_2 <- grid_terrain(LIDR_2014_1_xyzirnc_csf, res=0.1, algorithm = knnidw(k = 50L, p = 3))
+#1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
+#2: There were 2262 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
+
+#check raster
+print(LIDR_2014_1_xyzirnc_csf_idw01_2)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_1_xyzirnc_csf_idw01_2, paste0(path_tests,
+                                                          "dtm_2014_1_xyzirnc_csf_idw_01_2.tif"),
+                    format = "GTiff", overwrite = TRUE)
+
+
+                          ####Kriging####
+#way tooo slow ATM
 #using the point classification####
 LIDR_2014_1_ground_krig01 <- grid_terrain(LIDR_2014_1_ground, res= 0.1, algorithm = kriging())
 #
@@ -457,3 +477,18 @@ print(LIDR_2014_1_xyzirnc_csf_krig01)
 raster::writeRaster(LIDR_2014_1_xyzirnc_csf_krig01, paste0(path_tests,
                                                            "dtm_2014_1_xyzirnc_csf_krig_01.tif"),
                                                            format = "GTiff", overwrite = TRUE)
+
+
+                 ####Comparing the DTM results####
+
+#read DTMs:
+
+lsDTMs
+# [1] "E:/REPO/LidR_test/dtm_2014_1_csf_tin_01.tif"         "E:/REPO/LidR_test/dtm_2014_1_ground_idw_01.tif"      "E:/REPO/LidR_test/dtm_2014_1_ground_tin_005.tif"
+#[4] "E:/REPO/LidR_test/dtm_2014_1_ground_tin_01.tif"      "E:/REPO/LidR_test/dtm_2014_1_pmf_tin_005.tif"        "E:/REPO/LidR_test/dtm_2014_1_pmf_tin_01.tif"
+#[7] "E:/REPO/LidR_test/dtm_2014_1_pmf_tin_02.tif"         "E:/REPO/LidR_test/dtm_2014_1_pmf_tin_05.tif"         "E:/REPO/LidR_test/dtm_2014_1_xyzirnc_csf_idw_01.tif"
+#[10] "E:/REPO/LidR_test/dtm_2014_1_xyzirnc_pmf_idw_01.tif"
+
+dtm_2014_1_ground_tin_01
+
+summary( - )
