@@ -64,12 +64,12 @@ plot(LIDAR_2014_catalog, mapview = TRUE, map.type = "Esri.WorldImagery")
 
 #set variables for the lidR catalog####
 #chunk size in which lidR should process: 209 x 4 = 836
-lidR::opt_chunk_size(LIDAR_2014_catalog) <- 250
+lidR::opt_chunk_size(LIDAR_2014_catalog) <- 0
 #lidR::opt_chunk_buffer() -> default: 30
 plot(LIDAR_2014_catalog, chunk= TRUE)
 #enable to overwrite result when processed again
 LIDAR_2014_catalog@output_options$drivers$Raster$param$overwrite <- TRUE
 
-#add output filename template
+#apply
 ground_class_CAT2014 <- lidR::grid_terrain(LIDAR_2014_catalog, res=0.1, algorithm = knnidw(k = 20L, p = 3, rmax = 50))
 
