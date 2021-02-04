@@ -117,7 +117,7 @@ lidR::set_lidr_threads(4)
 #LAS stores x,y,z for each point + many other information=attributes and this
 #can take a lot of memory from the PC
 
-# 'select' enables to choose between attributes/rows
+# 'select' enables to choose between attributes/columns
 names(LIDR_2014_1@data)
 #[1] "X"                 "Y"                 "Z"                 "gpstime"
 #[5] "Intensity"         "ReturnNumber"      "NumberOfReturns"   "ScanDirectionFlag"
