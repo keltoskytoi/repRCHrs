@@ -98,7 +98,7 @@ summary(LIDR_2014_1)
 #check data quality####
 #before getting started it is always good to check the data quality
 
-las_check(LIDR_2014_1)
+lidR::las_check(LIDR_2014_1)
 #⚠ 402 points are duplicated and share XYZ coordinates with other points
 #⚠ There were 370 degenerated ground points. Some X Y Z coordinates were repeated.
 #⚠ There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates.
@@ -213,6 +213,8 @@ th <- seq(0.1, 1.5, length.out = length(ws))
 LIDR_2014_1_xyzirnc_pmf_seq <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = ws, th = th))
 #Original dataset already contains 7718079 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
+
+
 
 LIDR_2014_1_xyzirnc_pmf_seq_clipped3 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_seq, point1, point2, width = 4, xz = TRUE)
 ggplot(LIDR_2014_1_xyzirnc_pmf_seq_clipped3@data, aes(X,Z, color = Z)) +
