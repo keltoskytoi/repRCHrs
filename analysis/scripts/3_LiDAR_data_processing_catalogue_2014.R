@@ -91,10 +91,10 @@ DTM_20XX <- function(LIDAR_2014_catalog)
 #create a function
 DTM_20XX <- function(LIDAR_2014_catalog)
 {
-  opt_output_files(LIDAR_2014_catalog) <- paste0(path_tests, "/{*}_xyzirnc_ground_01")
+  opt_output_files(LIDAR_2014_catalog) <- paste0(path_analysis_data_dtm1, "/{*}_xyzirnc_ground_IDW01")
   LIDAR_2014_catalog@output_options$drivers$Raster$param$overwrite <- TRUE
   lidR::opt_chunk_buffer(LIDAR_2014_catalog) <- 50
-  dtm_2014 <- grid_terrain(LIDAR_2014_catalog, 1, res=0.1, algorithm = knnidw(k = 20L, p = 3, rmax = 50)) # create dtm
+  dtm_2014 <- grid_terrain(LIDAR_2014_catalog, 1, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50)) # create dtm
   return(dtm_2014) # output
 }
 DTM_20XX(LIDAR_2014_catalog)
