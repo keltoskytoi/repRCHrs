@@ -15,10 +15,6 @@ lsLIDAR14 <- list.files(("E:/REPO/LiDAR_14"),
 LIDAR_2014_catalog <-  lidR::readLAScatalog(lsLIDAR14, select = "xyzirnc", filter ="keep_class 2")
 #set the projection of the lidR catalog
 sp::proj4string(LIDAR_2014_catalog) <- sp::CRS("+init=epsg:25832")
-#paralellize the work
-future::plan(multisession, workers = 2L)
-#set the number of threads lidR should use
-lidR::set_lidr_threads(4)
 
 #summary of the catalog
 summary(LIDAR_2014_catalog)
@@ -39,7 +35,7 @@ summary(LIDAR_2014_catalog)
 #- SimpleFeature : quiet = TRUE
 #- DataFrame : no parameter
 
-las_check(LIDAR_2014_catalog)
+lidR::las_check(LIDAR_2014_catalog)
 #Checking headers consistency
 #- Checking file version consistency... ✓
 #- Checking scale consistency...
@@ -67,9 +63,13 @@ spplot(LIDAR_2014_catalog, "Min.Z")
 
 #set variables for the lidR catalog####
 
-#chunk size in which lidR should process: 209 x 4 = 836
-#lidR::opt_chunk_size(LIDAR_2014_catalog) <- 836
-#- it stopped after 3 hours + all chunks had warnings
+#paralellize the work
+future::plan(multisession, workers = 2L)
+#set the number of threads lidR should use
+lidR::set_lidr_threads(4)
+
+#chunk size in which lidR should process: in meters!
+#lidR::opt_chunk_size(LIDAR_2014_catalog) # the 1000x1000 m chunks are perfect!
 lidR::opt_chunk_buffer(LIDAR_2014_catalog) <- 50# default: 30
 plot(LIDAR_2014_catalog, chunk= TRUE)
 opt_output_files(LIDAR_2014_catalog) <- paste0(path_analysis_data_DTM201, "/{*}_xyzirnc_ground_01")
@@ -88,13 +88,13 @@ DTM_20XX <- function(LIDAR_2014_catalog)
 }
 
 
-#create a function
+#create a bit more complicated function
 DTM_20XX <- function(LIDAR_2014_catalog)
 {
   opt_output_files(LIDAR_2014_catalog) <- paste0(path_analysis_data_dtm1, "/{*}_xyzirnc_ground_IDW01")
   LIDAR_2014_catalog@output_options$drivers$Raster$param$overwrite <- TRUE
   lidR::opt_chunk_buffer(LIDAR_2014_catalog) <- 50
-  dtm_2014 <- grid_terrain(LIDAR_2014_catalog, 1, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50)) # create dtm
+  dtm_2014 <- grid_terrain(LIDAR_2014_catalog, 1, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
   return(dtm_2014) # output
 }
 DTM_20XX(LIDAR_2014_catalog)

@@ -49,6 +49,7 @@ print(LIDR_2014_1)
 #assign projection#####
 sp::proj4string(LIDR_2014_1) <- sp::CRS("+init=epsg:25832")
 
+#print again#
 print(LIDR_2014_1)
 #class        : LAS (v1.3 format 1)
 #memory       : 780.3 Mb
