@@ -141,20 +141,21 @@ plot(LIDAR_2018_catalog_b, mapview = TRUE, map.type = "Esri.WorldImagery")
 spplot(LIDAR_2018_catalog_b, "Min.Z")
 
 
-
-
 #paralellize the work####
 future::plan(multisession, workers = 2L)
 #set the number of threads lidR should use
 lidR::set_lidr_threads(4)
 
 
+#catalog and path is always changing
+LIDAR_2018_catalog <- LIDAR_2018_catalog_b
+opt_output_files(LIDAR_2018_catalog) <- paste0(path_analysis_data_dtm2018b, "/{*}_xyzirnc_ground_IDW01")
+
 #create a function
-process_bigdata <- function(LIDAR_2014_catalog_b){
-  opt_output_files(LIDAR_2014_catalog_b) <- paste0(path_analysis_data_dtm2018b, "/{*}_xyzirnc_ground_IDW01")
-  LIDAR_2018_catalog_b@output_options$drivers$Raster$param$overwrite <- TRUE
-  lidR::opt_chunk_buffer(LIDAR_2018_catalog_b) <- 50
-  dtm_2018 <- grid_terrain(LIDAR_2018_catalog_b, 1, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+process_bigdata <- function(LIDAR_2018_catalog){
+  LIDAR_2018_catalog@output_options$drivers$Raster$param$overwrite <- TRUE
+  lidR::opt_chunk_buffer(LIDAR_2018_catalog) <- 50
+  dtm_2018 <- grid_terrain(LIDAR_2018_catalog, 1, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
   return(dtm_2018)
 }
 
