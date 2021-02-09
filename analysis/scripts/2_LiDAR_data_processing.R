@@ -10,10 +10,10 @@ lsDTMs <- list.files(("E:/REPO/LidR_test"),
                         full.names = TRUE)
 
 #define points for cross section:
-point1 <- c(478000, 5616000) #xy
-point2 <- c(478500, 5616500) #xy
-point3 <- c(478500, 5616500) #xy
-point4 <- c(479000, 5617000) #xy
+point1 <- c(486000, 5625000) #xy
+point2 <- c(486500, 5625500) #xy
+point3 <- c(486500, 5625500) #xy
+point4 <- c(487000, 5626000) #xy
 
 ###############################READ 1 LAZ FILE##################################
 #read with rlas####
@@ -34,63 +34,63 @@ LIDAR_2014_1
 
 
 #read with lidR####
-LIDR_2014_1 <- lidR::readLAS(lsLIDAR14[1])
+LIDR_2014_1 <- lidR::readLAS(lsLIDAR14[162])
 #Warnmeldung:
 #Invalid data: ScanAngleRank greater than 90 degrees
 print(LIDR_2014_1)
 #class        : LAS (v1.3 format 1)
-#memory       : 780.3 Mb
-#extent       : 478000, 479000, 5616000, 5617000 (xmin, xmax, ymin, ymax)
+#memory       : 970.6 Mb
+#extent       : 486000, 487000, 5625000, 5626000 (xmin, xmax, ymin, ymax)
 #coord. ref.  : NA
 #area         : 1 kunits²
-#points       : 10.23 million points
-#density      : 10.23 points/units²
+#points       : 12.72 million points
+#density      : 12.72 points/units²
 
 #assign projection#####
 sp::proj4string(LIDR_2014_1) <- sp::CRS("+init=epsg:25832")
 
 #print again#
-print(LIDR_2014_1)
+lidR::print(LIDR_2014_1)
 #class        : LAS (v1.3 format 1)
-#memory       : 780.3 Mb
-#extent       : 478000, 479000, 5616000, 5617000 (xmin, xmax, ymin, ymax)
+#memory       : 970.6 Mb
+#extent       : 486000, 487000, 5625000, 5626000 (xmin, xmax, ymin, ymax)
 #coord. ref.  : ETRS89 / UTM zone 32N
 #area         : 1 km²
-#points       : 10.23 million points
-#density      : 10.23 points/m²
+#points       : 12.72 million points
+#density      : 12.72 points/m²
 
 #summary####
-summary(LIDR_2014_1)
+lidR::summary(LIDR_2014_1)
 #class        : LAS (v1.3 format 1)
-#memory       : 780.3 Mb
-#extent       : 478000, 479000, 5616000, 5617000 (xmin, xmax, ymin, ymax)
+#memory       : 970.6 Mb
+#extent       : 486000, 487000, 5625000, 5626000 (xmin, xmax, ymin, ymax)
 #coord. ref.  : ETRS89 / UTM zone 32N
 #area         : 1 km²
-#points       : 10.23 million points
-#density      : 10.23 points/m²
+#points       : 12.72 million points
+#density      : 12.72 points/m²
 #File signature:           LASF
 #File source ID:           0
 #Global encoding:
-#- GPS Time Type: GPS Week Time
+#  - GPS Time Type: GPS Week Time
 #- Synthetic Return Numbers: no
 #- Well Know Text: CRS is GeoTIFF
 #- Aggregate Model: false
-# ID - GUID:        00000000-0000-0000-0000-000000000000
+#Project ID - GUID:        00000000-0000-0000-0000-000000000000
 #Version:                  1.3
 #System identifier:        LAStools (c) by rapidlasso GmbH
 #Generating software:      lasmerge (version 161114)
-#File creation d/y:        122/2016
+#File creation d/y:        0/0
 #header size:              235
-#Offset to point data:     235
+#Offset to point data:     237
 #Num. var. length record:  0
 #Point data format:        1
 #Point data record length: 28
-#Num. of point records:    10227004
-#Num. of points by return: 8999985 949108 240884 34535 2423
+#Num. of point records:    12721378
+#Num. of points by return: 8964980 3028790 655210 68797 3523
 #Scale factor X Y Z:       0.001 0.001 0.001
-#Offset X Y Z:             478000 5616942 100
-#min X Y Z:                478000 5616000 166
-#max X Y Z:                479000 5617000 264.9
+#Offset X Y Z:             486000.3 5625000 300
+#min X Y Z:                486000 5625000 244.46
+#max X Y Z:                487000 5626000 392.82
 #Variable length records:  void
 
 #plot in pointcloud viewer
@@ -100,9 +100,9 @@ summary(LIDR_2014_1)
 #before getting started it is always good to check the data quality
 
 lidR::las_check(LIDR_2014_1)
-#⚠ 402 points are duplicated and share XYZ coordinates with other points
-#⚠ There were 370 degenerated ground points. Some X Y Z coordinates were repeated.
-#⚠ There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates.
+#⚠ 269 points are duplicated and share XYZ coordinates with other points
+#⚠ There were 244 generated ground points. Some X Y Z coordinates were repeated.
+#⚠ There were 1762 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates.
 #⚠ 'ScanDirectionFlag' attribute is not populated.
 #⚠ A proj4string found but no CRS in the header.
 #- Checking normalization... no
@@ -138,27 +138,32 @@ names(LIDR_2014_1@data)
 #the las file and then filtering the pint cloud
 
 #read a selected pointcloud: x,y,z, return number and number of returns, intensity, classification
-LIDR_2014_1_xyzirnc <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc")
+LIDR_2014_1_xyzirnc <- lidR::readLAS(lsLIDAR14[162], select = "xyzirnc")
 
 print(LIDR_2014_1_xyzirnc) #no CRS
 
 #assign projection
 sp::proj4string(LIDR_2014_1_xyzirnc) <- sp::CRS("+init=epsg:25832")
-crs(LIDR_2014_1_xyzirnc) #+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs
-
-print(LIDR_2014_1_xyzirnc)
+lidR::print(LIDR_2014_1)
+#class        : LAS (v1.3 format 1)
+#memory       : 970.6 Mb
+#extent       : 486000, 487000, 5625000, 5626000 (xmin, xmax, ymin, ymax)
+#coord. ref.  : ETRS89 / UTM zone 32N
+#area         : 1 km²
+#points       : 12.72 million points
+#density      : 12.72 points/m²
 
                     ####USING POINT CLASSIFICATION####
-LIDR_2014_1_ground <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc", filter ="keep_class 2")
+LIDR_2014_1_ground <- lidR::readLAS(lsLIDAR14[162], select = "xyzirnc", filter ="keep_class 2")
 
 print(LIDR_2014_1_ground)
 #class        : LAS (v1.3 format 1)
-#memory       : 429.2 Mb
-#extent       : 478000, 479000, 5616000, 5617000 (xmin, xmax, ymin, ymax)
+#memory       : 485.3 Mb
+#extent       : 486000, 487000, 5625000, 5626000 (xmin, xmax, ymin, ymax)
 #coord. ref.  : NA
 #area         : 1 kunits²
-#points       : 10.23 million points
-#density      : 10.23 points/units²
+#points       : 12.72 million points
+#density      : 12.72 points/units²
 
 #assign projection
 sp::proj4string(LIDR_2014_1_ground) <- sp::CRS("+init=epsg:25832")
@@ -185,10 +190,8 @@ plot_crossection(LIDR_2014_1_ground_clipped2, colour_by = factor(Classification)
 
 #first let's test a simple morphological filter (see LidRbook)####
 LIDR_2014_1_xyzirnc_pmf <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 3))
-#Original dataset already contains 7718079 ground points. These points were
+#Original dataset already contains 6673368 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
-
-#plot(LIDR_2014_1_xyzirnc_pmf, color = "Classification", size = 3, bg = "white")
 
 #make a cross section and check the classification results:
 LIDR_2014_1_xyzirnc_pmf_clipped <- clip_transect(LIDR_2014_1_xyzirnc_pmf, point1, point2, width = 4, xz = TRUE)
@@ -208,55 +211,28 @@ ggplot(LIDR_2014_1_xyzirnc_pmf_clipped2@data, aes(X,Z, color = Z)) +
 plot_crossection(LIDR_2014_1_xyzirnc_pmf_clipped, colour_by = factor(Classification))
 plot_crossection(LIDR_2014_1_xyzirnc_pmf_clipped2, colour_by = factor(Classification))
 
-#what about using a sequence - probably not much use####
-ws <- seq(3, 12, 3)
-th <- seq(0.1, 1.5, length.out = length(ws))
-LIDR_2014_1_xyzirnc_pmf_seq <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = ws, th = th))
-#Original dataset already contains 7718079 ground points. These points were
-#reclassified as 'unclassified' before performing a new ground classification.
-
-
-
-LIDR_2014_1_xyzirnc_pmf_seq_clipped3 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_seq, point1, point2, width = 4, xz = TRUE)
-ggplot(LIDR_2014_1_xyzirnc_pmf_seq_clipped3@data, aes(X,Z, color = Z)) +
-  geom_point(size = 0.5) +
-  coord_equal() +
-  theme_minimal() +
-  scale_color_gradientn(colours = height.colors(50))
-
-LIDR_2014_1_xyzirnc_pmf_seq_clipped4 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_seq, point3, point4, width = 4, xz = TRUE)
-ggplot(LIDR_2014_1_xyzirnc_pmf_seq_clipped4@data, aes(X,Z, color = Z)) +
-  geom_point(size = 0.5) +
-  coord_equal() +
-  theme_minimal() +
-  scale_color_gradientn(colours = height.colors(50))
-
-plot_crossection(LIDR_2014_1_xyzirnc_pmf_seq_clipped3, colour_by = factor(Classification))
-plot_crossection(LIDR_2014_1_xyzirnc_pmf_seq_clipped4, colour_by = factor(Classification))
-#it did not classify all ground points
-
-#let's try it with th 1!####
+#let's try it with th1!####
 LIDR_2014_1_xyzirnc_pmf_th1 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 1))
-#Original dataset already contains 7718079 ground points. These points were
+#Original dataset already contains 6673368 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
 
 #make a cross section and check the classification results:
-LIDR_2014_1_xyzirnc_pmf_th1_clipped5 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th1, point1, point2, width = 4, xz = TRUE)
+LIDR_2014_1_xyzirnc_pmf_th1_clipped <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th1, point1, point2, width = 4, xz = TRUE)
 ggplot(LIDR_2014_1_xyzirnc_pmf_th1_clipped5@data, aes(X,Z, color = Z)) +
   geom_point(size = 0.5) +
   coord_equal() +
   theme_minimal() +
   scale_color_gradientn(colours = height.colors(50))
 
-LIDR_2014_1_xyzirnc_pmf_th1_clipped6 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th1, point3, point4, width = 4, xz = TRUE)
+LIDR_2014_1_xyzirnc_pmf_th1_clipped2 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th1, point3, point4, width = 4, xz = TRUE)
 ggplot(LIDR_2014_1_xyzirnc_pmf_th1_clipped6@data, aes(X,Z, color = Z)) +
   geom_point(size = 0.5) +
   coord_equal() +
   theme_minimal() +
   scale_color_gradientn(colours = height.colors(50))
 
-plot_crossection(LIDR_2014_1_xyzirnc_pmf_th1_clipped5, colour_by = factor(Classification))
-plot_crossection(LIDR_2014_1_xyzirnc_pmf_th1_clipped6, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_th1_clipped, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_th1_clipped2, colour_by = factor(Classification))
 
 
                           ####CLOTH SIMULATION FUNCTION####
@@ -961,6 +937,7 @@ raster::writeRaster(LIDR_2014_1_xyzirnc_csf_krig01, paste0(path_tests,
 
 
 
+
                    ####Comparing the DTM results####
 
 #The test DTMs have been compared visually in QGIS. Keeping the aim of this thesis:
@@ -972,30 +949,3 @@ raster::writeRaster(LIDR_2014_1_xyzirnc_csf_krig01, paste0(path_tests,
 #Kriging is taking way too long and DTM generation is only a tool not the aim of
 #this thesis.
 
-#comparisions####
-summary(LIDR_2014_1_ground_tin01 - LIDR_2014_1_ground_idw01)
-#layer
-#Min.    -3.594
-#1st Qu. -0.006
-#Median   0.000
-#3rd Qu.  0.006
-#Max.     3.061
-#NA's    25.000
-
-summary(LIDR_2014_1_ground_idw01_3 - LIDR_2014_1_ground_idw01)
-#layer
-#Min.    -2.339
-#1st Qu. -0.002
-#Median   0.000
-#3rd Qu.  0.002
-#Max.     2.276
-#NA's    25.000
-
-summary(LIDR_2014_1_ground_idw01_5 - LIDR_2014_1_ground_idw01_4)
-layer
-#Min.    -1.009
-#1st Qu. -0.003
-#Median   0.000
-#3rd Qu.  0.003
-#Max.     0.712
-#NA's    25.000
