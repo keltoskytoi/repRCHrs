@@ -211,21 +211,21 @@ ggplot(LIDR_2014_1_xyzirnc_pmf_clipped2@data, aes(X,Z, color = Z)) +
 plot_crossection(LIDR_2014_1_xyzirnc_pmf_clipped, colour_by = factor(Classification))
 plot_crossection(LIDR_2014_1_xyzirnc_pmf_clipped2, colour_by = factor(Classification))
 
-#let's try it with th1!####
+#th1####
 LIDR_2014_1_xyzirnc_pmf_th1 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 1))
 #Original dataset already contains 6673368 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
 
 #make a cross section and check the classification results:
 LIDR_2014_1_xyzirnc_pmf_th1_clipped <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th1, point1, point2, width = 4, xz = TRUE)
-ggplot(LIDR_2014_1_xyzirnc_pmf_th1_clipped5@data, aes(X,Z, color = Z)) +
+ggplot(LIDR_2014_1_xyzirnc_pmf_th1_clipped@data, aes(X,Z, color = Z)) +
   geom_point(size = 0.5) +
   coord_equal() +
   theme_minimal() +
   scale_color_gradientn(colours = height.colors(50))
 
 LIDR_2014_1_xyzirnc_pmf_th1_clipped2 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th1, point3, point4, width = 4, xz = TRUE)
-ggplot(LIDR_2014_1_xyzirnc_pmf_th1_clipped6@data, aes(X,Z, color = Z)) +
+ggplot(LIDR_2014_1_xyzirnc_pmf_th1_clipped@data, aes(X,Z, color = Z)) +
   geom_point(size = 0.5) +
   coord_equal() +
   theme_minimal() +
@@ -234,15 +234,131 @@ ggplot(LIDR_2014_1_xyzirnc_pmf_th1_clipped6@data, aes(X,Z, color = Z)) +
 plot_crossection(LIDR_2014_1_xyzirnc_pmf_th1_clipped, colour_by = factor(Classification))
 plot_crossection(LIDR_2014_1_xyzirnc_pmf_th1_clipped2, colour_by = factor(Classification))
 
+#th05####
+LIDR_2014_1_xyzirnc_pmf_th5 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 0.5))
+#Original dataset already contains 6673368 ground points. These points were
+#reclassified as 'unclassified' before performing a new ground classification.
+
+#make a cross section and check the classification results:
+LIDR_2014_1_xyzirnc_pmf_th05_clipped <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th5, point1, point2, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_th05_clipped@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+LIDR_2014_1_xyzirnc_pmf_th5_clipped2 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th5, point3, point4, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_th05_clipped2@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_th05_clipped, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_th05_clipped2, colour_by = factor(Classification))
+
+#th04####
+LIDR_2014_1_xyzirnc_pmf_th04 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 0.4))
+#Original dataset already contains 6673368 ground points. These points were
+#reclassified as 'unclassified' before performing a new ground classification.
+
+#make a cross section and check the classification results:
+LIDR_2014_1_xyzirnc_pmf_th04_clipped <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th04, point1, point2, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_th04_clipped@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+LIDR_2014_1_xyzirnc_pmf_th04_clipped2 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th04, point3, point4, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_th04_clipped2@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_th04_clipped, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_th04_clipped2, colour_by = factor(Classification))
+
+
+#th03####
+LIDR_2014_1_xyzirnc_pmf_th03 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 0.3))
+#Original dataset already contains 6673368 ground points. These points were
+#reclassified as 'unclassified' before performing a new ground classification.
+
+#make a cross section and check the classification results:
+LIDR_2014_1_xyzirnc_pmf_th03_clipped <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th03, point1, point2, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_th03_clipped@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+LIDR_2014_1_xyzirnc_pmf_th03_clipped2 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th03, point3, point4, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_th03_clipped2@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_th03_clipped, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_th03_clipped2, colour_by = factor(Classification))
+
+#th01####
+LIDR_2014_1_xyzirnc_pmf_th01 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 0.1))
+#Original dataset already contains 6673368 ground points. These points were
+#reclassified as 'unclassified' before performing a new ground classification.
+
+#make a cross section and check the classification results:
+LIDR_2014_1_xyzirnc_pmf_th01_clipped <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th01, point1, point2, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_th01_clipped@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+LIDR_2014_1_xyzirnc_pmf_th01_clipped2 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th01, point3, point4, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_th01_clipped2@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_th01_clipped, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_th01_clipped2, colour_by = factor(Classification))
+
+#th005####
+LIDR_2014_1_xyzirnc_pmf_th005 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 0.05))
+#Original dataset already contains 6673368 ground points. These points were
+#reclassified as 'unclassified' before performing a new ground classification.
+
+#make a cross section and check the classification results:
+LIDR_2014_1_xyzirnc_pmf_th005_clipped <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th005, point1, point2, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_th005_clipped@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+LIDR_2014_1_xyzirnc_pmf_th005_clipped2 <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th005, point3, point4, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_pmf_th01_clipped2@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_th005_clipped, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_pmf_th005_clipped2, colour_by = factor(Classification))
+
+
+
 
                           ####CLOTH SIMULATION FUNCTION####
                             #based on Zhang et al 2016
 #default settings of csf####
 LIDR_2014_1_xyzirnc_csf <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = csf())
-#Original dataset already contains 7718079 ground points. These points were
-#reclassified as 'unclassified' before performing a new ground classification
-
-#plot(LIDR_2014_1_xyzirnc_csf, color = "Classification", size = 3, bg = "white")
+#Original dataset already contains 6673368 ground points. These points were
+#reclassified as 'unclassified' before performing a new ground classification.
 
 #make a cross section and check the classification results:
 LIDR_2014_1_xyzirnc_csf_clipped <- clip_transect(LIDR_2014_1_xyzirnc_csf, point1, point2, width = 4, xz = TRUE)
@@ -265,6 +381,8 @@ plot_crossection(LIDR_2014_1_xyzirnc_csf_clipped2, colour_by = factor(Classifica
 #changing the settings of csf a bit 1####
 csf_1 <- csf(sloop_smooth = TRUE, class_threshold = 0.5, cloth_resolution = 0.5, rigidness = 1, iterations = 500, time_step = 0.65)
 LIDR_2014_1_xyzirnc_csf2 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, csf_1)
+#Original dataset already contains 6673368 ground points. These points were
+#reclassified as 'unclassified' before performing a new ground classification.
 
 #make a cross section and check the classification results:
 LIDR_2014_1_xyzirnc_csf2_clipped <- clip_transect(LIDR_2014_1_xyzirnc_csf2, point1, point2, width = 4, xz = TRUE)
@@ -287,7 +405,7 @@ plot_crossection(LIDR_2014_1_xyzirnc_csf2_clipped2, colour_by = factor(Classific
 #changing the settings of csf a bit 2####
 csf_2 <- csf(sloop_smooth = TRUE, class_threshold = 0.5, cloth_resolution = 0.5, rigidness = 2, iterations = 500, time_step = 0.65)
 LIDR_2014_1_xyzirnc_csf3 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, csf_2)
-#Original dataset already contains 7718079 ground points. These points were
+##Original dataset already contains 6673368 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
 
 #make a cross section and check the classification results:
@@ -307,6 +425,30 @@ ggplot(LIDR_2014_1_xyzirnc_csf3_clipped2@data, aes(X,Z, color = Z)) +
 
 plot_crossection(LIDR_2014_1_xyzirnc_csf3_clipped, colour_by = factor(Classification))
 plot_crossection(LIDR_2014_1_xyzirnc_csf3_clipped2, colour_by = factor(Classification))
+
+#csf4####
+csf_3 <- csf(sloop_smooth = TRUE, class_threshold = 0.2, cloth_resolution = 0.2, rigidness = 2, iterations = 500, time_step = 0.65)
+LIDR_2014_1_xyzirnc_csf4 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, csf_3)
+##Original dataset already contains 6673368 ground points. These points were
+#reclassified as 'unclassified' before performing a new ground classification.
+
+#make a cross section and check the classification results:
+LIDR_2014_1_xyzirnc_csf4_clipped <- clip_transect(LIDR_2014_1_xyzirnc_csf4, point1, point2, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_csf4_clipped@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+LIDR_2014_1_xyzirnc_csf4_clipped2 <- clip_transect(LIDR_2014_1_xyzirnc_csf4, point3, point4, width = 4, xz = TRUE)
+ggplot(LIDR_2014_1_xyzirnc_csf3_clipped2@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+plot_crossection(LIDR_2014_1_xyzirnc_csf4_clipped, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_1_xyzirnc_csf4_clipped2, colour_by = factor(Classification))
 
 
 ##################################DTM GENERAtion################################
@@ -697,6 +839,10 @@ print(LIDR_2014_1_pmf_th1_idw01_5)
 raster::writeRaster(LIDR_2014_1_pmf_th1_idw01_5, paste0(path_tests,
                                                         "dtm_2014_1_xyzirnc_pmf_th1_idw_01_5.tif"),
                                                         format = "GTiff", overwrite = TRUE)
+
+
+
+
 
                               #Cloth Simulation Function####
 #csf####
