@@ -144,9 +144,9 @@ print(LIDR_2014_1_xyzirnc) #no CRS
 
 #assign projection
 sp::proj4string(LIDR_2014_1_xyzirnc) <- sp::CRS("+init=epsg:25832")
-lidR::print(LIDR_2014_1)
+lidR::print(LIDR_2014_1_xyzirnc)
 #class        : LAS (v1.3 format 1)
-#memory       : 970.6 Mb
+#memory       : 485.3 Mb
 #extent       : 486000, 487000, 5625000, 5626000 (xmin, xmax, ymin, ymax)
 #coord. ref.  : ETRS89 / UTM zone 32N
 #area         : 1 km²
@@ -465,7 +465,6 @@ plot_crossection(LIDR_2014_1_xyzirnc_csf4_clipped2, colour_by = factor(Classific
                  ###Triangular Irregular Network (TIN)####
 
 #using the point classification####
-
 #0.5m####
 LIDR_2014_1_ground_tin05 <- lidR::grid_terrain(LIDR_2014_1_ground, res = 0.5, algorithm = tin())
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
@@ -1471,16 +1470,16 @@ raster::writeRaster(LIDR_2014_1_xyzirnc_csf4_idw01_4, paste0(path_tests,
                                                               format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_xyzirnc_csf3_idw01_5 <- grid_terrain(LIDR_2014_1_xyzirnc_csf3, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_1_xyzirnc_csf4_idw01_5 <- grid_terrain(LIDR_2014_1_xyzirnc_csf4, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2322 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_csf3_idw01_5)
+print(LIDR_2014_1_xyzirnc_csf4_idw01_5)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf3_idw01_5, paste0(path_tests,
-                                                             "dtm_2014_1_xyzirnc_csf3_idw_01_5.tif"),
+raster::writeRaster(LIDR_2014_1_xyzirnc_csf4_idw01_5, paste0(path_tests,
+                                                             "dtm_2014_1_xyzirnc_csf4_idw_01_5.tif"),
                                                               format = "GTiff", overwrite = TRUE)
 
                          ####Kriging####
