@@ -16,25 +16,8 @@ point3 <- c(486500, 5625500) #xy
 point4 <- c(487000, 5626000) #xy
 
 ###############################READ 1 LAZ FILE##################################
-#read with rlas####
-LIDAR_2014_1 <- rlas::read.las(lsLIDAR14[1])
-LIDAR_2014_1
-#       X       Y      Z      gpstime           Intensity ReturnNumber NumberOfReturns ScanDirectionFlag EdgeOfFlightline Classification Synthetic_flag Keypoint_flag Withheld_flag ScanAngleRank UserData PointSourceID
-#1: 478000.4 5616942 190.86 139821.0               63            1               1                 0                0              2          FALSE         FALSE         FALSE           120        0           518
-#2: 478000.9 5616942 190.86 139821.0               59            1               1                 0                0              2          FALSE         FALSE         FALSE           120        0           518
-#3: 478001.3 5616941 190.82 139821.0               56            1               1                 0                0              2          FALSE         FALSE         FALSE           120        0           518
-#4: 478000.3 5616941 190.86 139821.0               66            1               1                 0                0              2          FALSE         FALSE         FALSE           120        0           518
-#5: 478001.7 5616940 190.76 139821.0               61            1               1                 0                0              2          FALSE         FALSE         FALSE           120        0           518
-#---
-#10227000: 478629.6 5616719 170.79 144503.0        18            1               1                 0                0              1          FALSE         FALSE         FALSE            79        0           560
-#10227001: 478630.3 5616719 170.75 144503.0       159            1               1                 0                0              1          FALSE         FALSE         FALSE            79        0           560
-#10227002: 478626.5 5616720 170.85 144503.1        35            1               1                 0                0              1          FALSE         FALSE         FALSE            80        0           560
-#10227003: 478627.2 5616720 170.88 144503.1        46            1               1                 0                0              1          FALSE         FALSE         FALSE            80        0           560
-#10227004: 478627.9 5616720 170.74 144503.1        16            1               2                 0                0              1          FALSE         FALSE         FALSE            79        0           560
-
-
-#read with lidR####
-LIDR_2014_1 <- lidR::readLAS(lsLIDAR14[162])
+#read data####
+LIDR_2014_1 <- lidR::readLAS(lsLIDAR14[1])
 #Warnmeldung:
 #Invalid data: ScanAngleRank greater than 90 degrees
 print(LIDR_2014_1)
@@ -138,7 +121,7 @@ names(LIDR_2014_1@data)
 #the las file and then filtering the pint cloud
 
 #read a selected pointcloud: x,y,z, return number and number of returns, intensity, classification
-LIDR_2014_1_xyzirnc <- lidR::readLAS(lsLIDAR14[162], select = "xyzirnc")
+LIDR_2014_1_xyzirnc <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc")
 
 print(LIDR_2014_1_xyzirnc) #no CRS
 
@@ -154,7 +137,7 @@ lidR::print(LIDR_2014_1_xyzirnc)
 #density      : 12.72 points/m²
 
                     ####USING POINT CLASSIFICATION####
-LIDR_2014_1_ground <- lidR::readLAS(lsLIDAR14[162], select = "xyzirnc", filter ="keep_class 2")
+LIDR_2014_162_ground <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc", filter ="keep_class 2")
 
 print(LIDR_2014_1_ground)
 #class        : LAS (v1.3 format 1)
@@ -169,7 +152,7 @@ print(LIDR_2014_1_ground)
 sp::proj4string(LIDR_2014_1_ground) <- sp::CRS("+init=epsg:25832")
 
 LIDR_2014_1_ground_clipped <- clip_transect(LIDR_2014_1_ground, point1, point2, width = 4, xz = TRUE)
-ggplot(LIDR_2014_1_ground_clipped@data, aes(X,Z, color = Z)) +
+ggplot(LIDR_2014_162_ground_clipped@data, aes(X,Z, color = Z)) +
   geom_point(size = 0.5) +
   coord_equal() +
   theme_minimal() +
@@ -378,7 +361,7 @@ ggplot(LIDR_2014_1_xyzirnc_csf_clipped2@data, aes(X,Z, color = Z)) +
 plot_crossection(LIDR_2014_1_xyzirnc_csf_clipped, colour_by = factor(Classification))
 plot_crossection(LIDR_2014_1_xyzirnc_csf_clipped2, colour_by = factor(Classification))
 
-#changing the settings of csf a bit 1####
+#changing the settings of csf a bit 1 - csf2####
 csf_1 <- csf(sloop_smooth = TRUE, class_threshold = 0.5, cloth_resolution = 0.5, rigidness = 1, iterations = 500, time_step = 0.65)
 LIDR_2014_1_xyzirnc_csf2 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, csf_1)
 #Original dataset already contains 6673368 ground points. These points were
@@ -402,7 +385,7 @@ ggplot(LIDR_2014_1_xyzirnc_csf2_clipped2@data, aes(X,Z, color = Z)) +
 plot_crossection(LIDR_2014_1_xyzirnc_csf2_clipped, colour_by = factor(Classification))
 plot_crossection(LIDR_2014_1_xyzirnc_csf2_clipped2, colour_by = factor(Classification))
 
-#changing the settings of csf a bit 2####
+#changing the settings of csf a bit 2 - csf3####
 csf_2 <- csf(sloop_smooth = TRUE, class_threshold = 0.5, cloth_resolution = 0.5, rigidness = 2, iterations = 500, time_step = 0.65)
 LIDR_2014_1_xyzirnc_csf3 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, csf_2)
 ##Original dataset already contains 6673368 ground points. These points were
@@ -1482,45 +1465,6 @@ raster::writeRaster(LIDR_2014_1_xyzirnc_csf4_idw01_5, paste0(path_tests,
 
                          ####Kriging####
 #way tooo slow ATM
-#using the point classification####
-LIDR_2014_1_ground_krig01 <- lidR::grid_terrain(LIDR_2014_1_ground, res= 0.1, algorithm = kriging())
-#
-
-#check raster
-print(LIDR_2014_1_ground_krig01)
-
-#write/export as raster
-raster::writeRaster(LIDR_2014_1_ground_krig01, paste0(path_tests,
-                                                     "dtm_2014_1_ground_krig_01.tif"),
-                                                      format = "GTiff", overwrite = TRUE)
-
-#Progressive Morphological Filter####
-LIDR_2014_1_xyzirnc_pmf_krig01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf, res=0.1, algorithm = kriging())
-#
-
-#check raster
-print(LIDR_2014_1_xyzirnc_pmf_krig01)
-
-#write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_krig01, paste0(path_tests,
-                                                           "dtm_2014_1_xyzirnc_pmf_krig_01.tif"),
-                                                            format = "GTiff", overwrite = TRUE)
-
-#Cloth Simulation Function####
-LIDR_2014_1_xyzirnc_csf_krig01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf, res=0.1, algorithm = kriging())
-#
-
-#check raster
-print(LIDR_2014_1_xyzirnc_csf_krig01)
-
-#write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf_krig01, paste0(path_tests,
-                                                           "dtm_2014_1_xyzirnc_csf_krig_01.tif"),
-                                                           format = "GTiff", overwrite = TRUE)
-
-
-
-
                    ####Comparing the DTM results####
 
 #The test DTMs have been compared visually in QGIS. Keeping the aim of this thesis:
@@ -1532,3 +1476,58 @@ raster::writeRaster(LIDR_2014_1_xyzirnc_csf_krig01, paste0(path_tests,
 #Kriging is taking way too long and DTM generation is only a tool not the aim of
 #this thesis.
 
+                              #####TEST TILE 79####
+LIDR_2014_79_xyzirnc <- lidR::readLAS(lsLIDAR14[79], select = "xyzirnc")
+print(LIDR_2014_79_xyzirnc) #no CRS
+#assign projection
+sp::proj4string(LIDR_2014_79_xyzirnc) <- sp::CRS("+init=epsg:25832")
+lidR::print(LIDR_2014_79_xyzirnc)
+print(LIDR_2014_79_xyzirnc)
+#class        : LAS (v1.3 format 1)
+#memory       : 494 Mb
+#extent       : 482000, 483000, 5618000, 5619000 (xmin, xmax, ymin, ymax)
+#coord. ref.  : ETRS89 / UTM zone 32N
+#area         : 1 km²
+#points       : 12.95 million points
+#density      : 12.95 points/m²
+
+LIDR_2014_79_xyzirnc_pmf_th04 <- lidR::classify_ground(LIDR_2014_79_xyzirnc, algorithm = pmf(ws = 5, th = 0.4))
+#Original dataset already contains 7208709 ground points. These points were
+#reclassified as 'unclassified' before performing a new ground classification.
+
+#define points for cross section:
+point3 <- c(482673, 5618847) #xy
+point4 <- c(482669, 5618720) #xy
+
+point5 <- c(482588, 5618768) #xy
+point6 <- c(482724, 5618755) #xy
+
+#make a cross section and check the classification results:
+LIDR_2014_79_xyzirnc_pmf_th04_clipped <- clip_transect(LIDR_2014_79_xyzirnc_pmf_th04, point1, point2, width = 4, xz = TRUE)
+ggplot(LIDR_2014_79_xyzirnc_pmf_th04_clipped@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+LIDR_2014_79_xyzirnc_pmf_th04_clipped2 <- clip_transect(LIDR_2014_79_xyzirnc_pmf_th04, point3, point4, width = 4, xz = TRUE)
+ggplot(LIDR_2014_79_xyzirnc_pmf_th04_clipped2@data, aes(X,Z, color = Z)) +
+  geom_point(size = 0.5) +
+  coord_equal() +
+  theme_minimal() +
+  scale_color_gradientn(colours = height.colors(50))
+
+plot_crossection(LIDR_2014_79_xyzirnc_pmf_th04_clipped, colour_by = factor(Classification))
+plot_crossection(LIDR_2014_79_xyzirnc_pmf_th04_clipped2, colour_by = factor(Classification))
+
+LIDR_2014_79_pmf_th04_idw01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th04, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+#1: There were 266 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
+#2: There were 1839 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
+
+#check raster
+print(LIDR_2014_79_pmf_th04_idw01)
+
+#write/export as raster
+raster::writeRaster(LIDR_2014_79_pmf_th04_idw01, paste0(path_tests,
+                                                       "dtm_2014_79_xyzirnc_pmf_th04_idw_01.tif"),
+                                                        format = "GTiff", overwrite = TRUE)
