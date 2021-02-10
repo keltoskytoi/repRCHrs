@@ -434,7 +434,6 @@ ggplot(LIDR_2014_79_xyzirnc_csf3_clipped2@data, aes(X,Z, color = Z)) +
 plot_crossection(LIDR_2014_79_xyzirnc_csf4_clipped, colour_by = factor(Classification))
 plot_crossection(LIDR_2014_79_xyzirnc_csf4_clipped2, colour_by = factor(Classification))
 
-
 ##################################DTM GENERAtion################################
 #one question is still lingering around: which resolution should be used?
 #well, because quite huge data sets are going to be used, the tiles should not be too big
@@ -450,12 +449,12 @@ plot_crossection(LIDR_2014_79_xyzirnc_csf4_clipped2, colour_by = factor(Classifi
 
 #using the point classification####
 #0.5m####
-LIDR_2014_1_ground_tin05 <- lidR::grid_terrain(LIDR_2014_1_ground, res = 0.5, algorithm = tin())
+LIDR_2014_79_ground_tin05 <- lidR::grid_terrain(LIDR_2014_79_ground, res = 0.5, algorithm = tin())
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_ground_tin05)
+print(LIDR_2014_79_ground_tin05)
 #class      : RasterLayer
 #dimensions : 10000, 10000, 1e+08  (nrow, ncol, ncell)
 #resolution : 0.1, 0.1  (x, y)
@@ -466,17 +465,17 @@ print(LIDR_2014_1_ground_tin05)
 #values     : 166.088, 237.402  (min, max)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_ground_tin05, file.path(path_tests,
-                                                        "dtm_2014_1_xyzirnc_ground_tin_05.tif"),
+raster::writeRaster(LIDR_2014_79_ground_tin05, file.path(path_tests,
+                                                        "dtm_2014_79_xyzirnc_ground_tin_05.tif"),
                                                          format = "GTiff", overwrite = TRUE)
 
 #0.2m####
-LIDR_2014_1_ground_tin02 <- lidR::grid_terrain(LIDR_2014_1_ground, res = 0.2, algorithm = tin())
+LIDR_2014_79_ground_tin02 <- lidR::grid_terrain(LIDR_2014_79_ground, res = 0.2, algorithm = tin())
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_ground_tin02)
+print(LIDR_2014_79_ground_tin02)
 #class      : RasterLayer
 #dimensions : 10000, 10000, 1e+08  (nrow, ncol, ncell)
 #resolution : 0.1, 0.1  (x, y)
@@ -487,17 +486,17 @@ print(LIDR_2014_1_ground_tin02)
 #values     : 166.088, 237.402  (min, max)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_ground_tin02, file.path(path_tests,
-                                                        "dtm_2014_1_xyzirnc_ground_tin_02.tif"),
+raster::writeRaster(LIDR_2014_79_ground_tin02, file.path(path_tests,
+                                                        "dtm_2014_79_xyzirnc_ground_tin_02.tif"),
                                                          format = "GTiff", overwrite = TRUE)
 
 #0.1m####
-LIDR_2014_1_ground_tin01 <- lidR::grid_terrain(LIDR_2014_1_ground, res = 0.1, algorithm = tin())
+LIDR_2014_79_ground_tin01 <- lidR::grid_terrain(LIDR_2014_79_ground, res = 0.1, algorithm = tin())
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_ground_tin01)
+print(LIDR_2014_79_ground_tin01)
 #class      : RasterLayer
 #dimensions : 10000, 10000, 1e+08  (nrow, ncol, ncell)
 #resolution : 0.1, 0.1  (x, y)
@@ -508,930 +507,930 @@ print(LIDR_2014_1_ground_tin01)
 #values     : 166.088, 237.402  (min, max)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_ground_tin01, file.path(path_tests,
-                                                       "dtm_2014_1_xyzirnc_ground_tin_01.tif"),
+raster::writeRaster(LIDR_2014_79_ground_tin01, file.path(path_tests,
+                                                       "dtm_2014_79_xyzirnc_ground_tin_01.tif"),
                                                        format = "GTiff", overwrite = TRUE)
 
 #0.05m####
-LIDR_2014_1_ground_tin005 <- lidR::grid_terrain(LIDR_2014_1_ground, res = 0.05, algorithm = tin())
+LIDR_2014_79_ground_tin005 <- lidR::grid_terrain(LIDR_2014_79_ground, res = 0.05, algorithm = tin())
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_ground_tin005)
+print(LIDR_2014_79_ground_tin005)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_ground_tin005, file.path(path_tests,
-                                                       "dtm_2014_1_xyzirnc_ground_tin_005.tif"),
+raster::writeRaster(LIDR_2014_79_ground_tin005, file.path(path_tests,
+                                                       "dtm_2014_79_xyzirnc_ground_tin_005.tif"),
                                                        format = "GTiff", overwrite = TRUE)
 
 #Progressive Morphological Filter####
 #0.5 m####
-LIDR_2014_1_xyzirnc_pmf_tin05 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf, res = 0.5, algorithm = tin())
+LIDR_2014_79_xyzirnc_pmf_tin05 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf, res = 0.5, algorithm = tin())
 #Warning messages:
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_pmf_tin05)
+print(LIDR_2014_79_xyzirnc_pmf_tin05)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_tin05, paste0(path_tests,
-                                                          "dtm_2014_1_xyzirnc_pmf_tin_05.tif"),
+raster::writeRaster(LIDR_2014_79_xyzirnc_pmf_tin05, paste0(path_tests,
+                                                          "dtm_2014_79_xyzirnc_pmf_tin_05.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.2 m####
-LIDR_2014_1_xyzirnc_pmf_tin02 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf, res = 0.2, algorithm = tin())
+LIDR_2014_79_xyzirnc_pmf_tin02 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf, res = 0.2, algorithm = tin())
 #Warning messages:
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_pmf_tin02)
+print(LIDR_2014_79_xyzirnc_pmf_tin02)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_tin02, paste0(path_tests, "dtm_2014_1_xyzirnc_pmf_tin_02.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_xyzirnc_pmf_tin02, paste0(path_tests, "dtm_2014_79_xyzirnc_pmf_tin_02.tif"), overwrite = TRUE)
 
 #0.1 m####
-LIDR_2014_1_xyzirnc_pmf_tin01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf, res = 0.1, algorithm = tin())
+LIDR_2014_79_xyzirnc_pmf_tin01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf, res = 0.1, algorithm = tin())
 #Warning messages:
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_pmf_tin01)
+print(LIDR_2014_79_xyzirnc_pmf_tin01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_tin01, paste0(path_tests, "dtm_2014_1_xyzirnc_pmf_tin_01.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_xyzirnc_pmf_tin01, paste0(path_tests, "dtm_2014_79_xyzirnc_pmf_tin_01.tif"), overwrite = TRUE)
 
 #0.05m####
-LIDR_2014_1_xyzirnc_pmf_dtm_tin005 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf, res = 0.05, algorithm = tin())
+LIDR_2014_79_xyzirnc_pmf_dtm_tin005 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf, res = 0.05, algorithm = tin())
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_pmf_dtm_tin005)
+print(LIDR_2014_79_xyzirnc_pmf_dtm_tin005)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_dtm_tin005, paste0(path_tests, "dtm_2014_1_xyzirnc_pmf_tin_005.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_xyzirnc_pmf_dtm_tin005, paste0(path_tests, "dtm_2014_79_xyzirnc_pmf_tin_005.tif"), overwrite = TRUE)
 
 
 #0.1 m - th1####
-LIDR_2014_1_xyzirnc_pmf_th1_tin01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th1, res = 0.1, algorithm = tin())
+LIDR_2014_79_xyzirnc_pmf_th1_tin01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th1, res = 0.1, algorithm = tin())
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_pmf_th1_tin01)
+print(LIDR_2014_79_xyzirnc_pmf_th1_tin01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_th1_tin01, paste0(path_tests, "dtm_2014_1_xyzirnc_pmf_th1_tin01.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_xyzirnc_pmf_th1_tin01, paste0(path_tests, "dtm_2014_79_xyzirnc_pmf_th1_tin01.tif"), overwrite = TRUE)
 
 #0.1 m - th05####
-LIDR_2014_1_xyzirnc_pmf_th05_tin01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th05, res = 0.1, algorithm = tin())
+LIDR_2014_79_xyzirnc_pmf_th05_tin01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th05, res = 0.1, algorithm = tin())
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_pmf_th05_tin01)
+print(LIDR_2014_79_xyzirnc_pmf_th05_tin01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_th05_tin01, paste0(path_tests, "dtm_2014_1_xyzirnc_pmf_th05_tin01.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_xyzirnc_pmf_th05_tin01, paste0(path_tests, "dtm_2014_79_xyzirnc_pmf_th05_tin01.tif"), overwrite = TRUE)
 
 #0.1 m - th04####
-LIDR_2014_1_xyzirnc_pmf_th04_tin01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th04, res = 0.1, algorithm = tin())
+LIDR_2014_79_xyzirnc_pmf_th04_tin01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th04, res = 0.1, algorithm = tin())
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_pmf_th04_tin01)
+print(LIDR_2014_79_xyzirnc_pmf_th04_tin01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_th04_tin01, paste0(path_tests, "dtm_2014_1_xyzirnc_pmf_th04_tin01.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_xyzirnc_pmf_th04_tin01, paste0(path_tests, "dtm_2014_79_xyzirnc_pmf_th04_tin01.tif"), overwrite = TRUE)
 
 #0.1 m - th03####
-LIDR_2014_1_xyzirnc_pmf_th03_tin01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th03, res = 0.1, algorithm = tin())
+LIDR_2014_79_xyzirnc_pmf_th03_tin01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th03, res = 0.1, algorithm = tin())
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_pmf_th03_tin01)
+print(LIDR_2014_79_xyzirnc_pmf_th03_tin01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_th03_tin01, paste0(path_tests, "dtm_2014_1_xyzirnc_pmf_th03_tin01.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_xyzirnc_pmf_th03_tin01, paste0(path_tests, "dtm_2014_79_xyzirnc_pmf_th03_tin01.tif"), overwrite = TRUE)
 
 #0.1 m - th01####
-LIDR_2014_1_xyzirnc_pmf_th01_tin01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th01, res = 0.1, algorithm = tin())
+LIDR_2014_79_xyzirnc_pmf_th01_tin01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th01, res = 0.1, algorithm = tin())
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_pmf_th01_tin01)
+print(LIDR_2014_79_xyzirnc_pmf_th01_tin01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_th01_tin01, paste0(path_tests, "dtm_2014_1_xyzirnc_pmf_th01_tin01.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_xyzirnc_pmf_th01_tin01, paste0(path_tests, "dtm_2014_79_xyzirnc_pmf_th01_tin01.tif"), overwrite = TRUE)
 
 #0.1 m - th005####
-LIDR_2014_1_xyzirnc_pmf_th005_tin01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th005, res = 0.1, algorithm = tin())
+LIDR_2014_79_xyzirnc_pmf_th005_tin01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th005, res = 0.1, algorithm = tin())
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_pmf_th005_tin01)
+print(LIDR_2014_79_xyzirnc_pmf_th005_tin01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_th005_tin01, paste0(path_tests, "dtm_2014_1_xyzirnc_pmf_th005_tin01.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_xyzirnc_pmf_th005_tin01, paste0(path_tests, "dtm_2014_79_xyzirnc_pmf_th005_tin01.tif"), overwrite = TRUE)
 
 #Cloth Simulation Function####
 #0.1 m csf####
-LIDR_2014_1_xyzirnc_csf_tin01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf, res = 0.1, algorithm = tin())
+LIDR_2014_79_xyzirnc_csf_tin01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf, res = 0.1, algorithm = tin())
 #Warning messages:
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2262 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_csf_tin01)
+print(LIDR_2014_79_xyzirnc_csf_tin01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf_tin01, paste0(path_tests, "dtm_2014_1_xyzirnc_csf_tin_01.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_xyzirnc_csf_tin01, paste0(path_tests, "dtm_2014_79_xyzirnc_csf_tin_01.tif"), overwrite = TRUE)
 
 #0.1 m csf2####
-LIDR_2014_1_xyzirnc_csf2_tin01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf2, res = 0.1, algorithm = tin())
+LIDR_2014_79_xyzirnc_csf2_tin01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf2, res = 0.1, algorithm = tin())
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2321 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_csf2_tin01)
+print(LIDR_2014_79_xyzirnc_csf2_tin01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf2_tin01, paste0(path_tests, "dtm_2014_1_xyzirnc_csf2_tin_01.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_xyzirnc_csf2_tin01, paste0(path_tests, "dtm_2014_79_xyzirnc_csf2_tin_01.tif"), overwrite = TRUE)
 
 #0.1 m csf3####
-LIDR_2014_1_xyzirnc_csf3_tin01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf3, res = 0.1, algorithm = tin())
+LIDR_2014_79_xyzirnc_csf3_tin01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf3, res = 0.1, algorithm = tin())
 
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2322 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_csf3_tin01)
+print(LIDR_2014_79_xyzirnc_csf3_tin01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf3_tin01, paste0(path_tests, "dtm_2014_1_xyzirnc_csf3_tin_01.tif"), overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_xyzirnc_csf3_tin01, paste0(path_tests, "dtm_2014_79_xyzirnc_csf3_tin_01.tif"), overwrite = TRUE)
 
                      ####INVERT DISTANCE WEIGHING####
                     #using the point classification####
 #0.1 + default settings####
-LIDR_2014_1_ground_idw01 <- lidR::grid_terrain(LIDR_2014_1_ground, res= 0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+LIDR_2014_79_ground_idw01 <- lidR::grid_terrain(LIDR_2014_79_ground, res= 0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
 #1: There were 251 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 1989 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 #check raster
-print(LIDR_2014_1_ground_idw01)
+print(LIDR_2014_79_ground_idw01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_ground_idw01, paste0(path_tests,
-                                                     "dtm_2014_1_xyzirnc_ground_idw_01.tif"),
+raster::writeRaster(LIDR_2014_79_ground_idw01, paste0(path_tests,
+                                                     "dtm_2014_79_xyzirnc_ground_idw_01.tif"),
                                                       format = "GTiff", overwrite = TRUE)
 
 #0.1 with setting from Chris####
-LIDR_2014_1_ground_idw01_2 <- lidR::grid_terrain(LIDR_2014_1_ground, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
+LIDR_2014_79_ground_idw01_2 <- lidR::grid_terrain(LIDR_2014_79_ground, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_ground_idw01_2)
+print(LIDR_2014_79_ground_idw01_2)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_ground_idw01_2, paste0(path_tests,
-                                                       "dtm_2014_1_xyzirnc_ground_idw_01_2.tif"),
+raster::writeRaster(LIDR_2014_79_ground_idw01_2, paste0(path_tests,
+                                                       "dtm_2014_79_xyzirnc_ground_idw_01_2.tif"),
                                                        format = "GTiff", overwrite = TRUE)
 
 #0.1 with half of the default settings####
-LIDR_2014_1_ground_idw01_3 <- lidR::grid_terrain(LIDR_2014_1_ground, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
+LIDR_2014_79_ground_idw01_3 <- lidR::grid_terrain(LIDR_2014_79_ground, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_ground_idw01_3)
+print(LIDR_2014_79_ground_idw01_3)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_ground_idw01_3, paste0(path_tests,
-                                                       "dtm_2014_1_xyzirnc_ground_idw_01_3.tif"),
+raster::writeRaster(LIDR_2014_79_ground_idw01_3, paste0(path_tests,
+                                                       "dtm_2014_79_xyzirnc_ground_idw_01_3.tif"),
                                                        format = "GTiff", overwrite = TRUE)
 
 #0.1 + double of the default settings####
-LIDR_2014_1_ground_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_ground, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
+LIDR_2014_79_ground_idw01_4 <- lidR::grid_terrain(LIDR_2014_79_ground, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 #3: In UseMethod("depth"): nicht anwendbare Methode für 'depth' auf Objekt der Klasse "NULL" angewendet
 
 #check raster
-print(LIDR_2014_1_ground_idw01_4)
+print(LIDR_2014_79_ground_idw01_4)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_ground_idw01_4, paste0(path_tests,
-                                                       "dtm_2014_1_xyzirnc_ground_idw_01_4.tif"),
+raster::writeRaster(LIDR_2014_79_ground_idw01_4, paste0(path_tests,
+                                                       "dtm_2014_79_xyzirnc_ground_idw_01_4.tif"),
                                                        format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_ground_idw01_5 <- lidR::grid_terrain(LIDR_2014_1_ground, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_79_ground_idw01_5 <- lidR::grid_terrain(LIDR_2014_79_ground, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2262 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_ground_idw01_5)
+print(LIDR_2014_79_ground_idw01_5)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_ground_idw01_5, paste0(path_tests,
-                                                       "dtm_2014_1_xyzirnc_ground_idw_01_5.tif"),
+raster::writeRaster(LIDR_2014_79_ground_idw01_5, paste0(path_tests,
+                                                       "dtm_2014_79_xyzirnc_ground_idw_01_5.tif"),
                                                        format = "GTiff", overwrite = TRUE)
 
 
                     #Progressive Morphological Filter####
 #0.1 + default settings####
-LIDR_2014_1_pmf_idw01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+LIDR_2014_79_pmf_idw01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_pmf_idw01)
+print(LIDR_2014_79_xyzirnc_pmf_idw01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_idw01, paste0(path_tests,
-                                                          "dtm_2014_1_xyzirnc_pmf_idw_01.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_idw01, paste0(path_tests,
+                                                          "dtm_2014_79_xyzirnc_pmf_idw_01.tif"),
                                                            format = "GTiff", overwrite = TRUE)
 
 #0.1 with setting from Chris####
-LIDR_2014_1_pmf_idw01_2 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
+LIDR_2014_79_pmf_idw01_2 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_idw01_2)
+print(LIDR_2014_79_pmf_idw01_2)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_idw01_2, paste0(path_tests,
-                                                    "dtm_2014_1_xyzirnc_pmf_idw_01_2.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_idw01_2, paste0(path_tests,
+                                                    "dtm_2014_79_xyzirnc_pmf_idw_01_2.tif"),
                                                      format = "GTiff", overwrite = TRUE)
 
 #0.1 with half of the default settings####
-LIDR_2014_1_pmf_idw01_3 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
+LIDR_2014_79_pmf_idw01_3 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_idw01_3)
+print(LIDR_2014_79_pmf_idw01_3)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_idw01_3, paste0(path_tests,
-                                                    "dtm_2014_1_xyzirnc_pmf_idw_01_3.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_idw01_3, paste0(path_tests,
+                                                    "dtm_2014_79_xyzirnc_pmf_idw_01_3.tif"),
                                                     format = "GTiff", overwrite = TRUE)
 
 #0.1 + double of the default settings####
-LIDR_2014_1_pmf_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
+LIDR_2014_79_pmf_idw01_4 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_idw01_4)
+print(LIDR_2014_79_pmf_idw01_4)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_idw01_4, paste0(path_tests,
-                                                    "dtm_2014_1_xyzirnc_pmf_idw_01_4.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_idw01_4, paste0(path_tests,
+                                                    "dtm_2014_79_xyzirnc_pmf_idw_01_4.tif"),
                                                     format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_pmf_idw01_5 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_79_pmf_idw01_5 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 389 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2614 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_idw01_5)
+print(LIDR_2014_79_pmf_idw01_5)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_idw01_5, paste0(path_tests,
-                                                    "dtm_2014_1_xyzirnc_pmf_idw_01_5.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_idw01_5, paste0(path_tests,
+                                                    "dtm_2014_79_xyzirnc_pmf_idw_01_5.tif"),
                                                     format = "GTiff", overwrite = TRUE)
 
                      #LIDR_2014_1_pmf_th1####
 #0.1 + default settings####
-LIDR_2014_1_pmf_th1_idw01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th1, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+LIDR_2014_79_pmf_th1_idw01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th1, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th1_idw01)
+print(LIDR_2014_79_pmf_th1_idw01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th1_idw01, paste0(path_tests,
-                                                      "dtm_2014_1_xyzirnc_pmf_th1_idw_01.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th1_idw01, paste0(path_tests,
+                                                      "dtm_2014_79_xyzirnc_pmf_th1_idw_01.tif"),
                                                       format = "GTiff", overwrite = TRUE)
 
 #0.1 with setting from Chris####
-LIDR_2014_1_pmf_th1_idw01_2 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th1, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
+LIDR_2014_79_pmf_th1_idw01_2 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th1, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th1_idw01_2)
+print(LIDR_2014_79_pmf_th1_idw01_2)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th1_idw01_2, paste0(path_tests,
-                                                        "dtm_2014_1_xyzirnc_pmf_th1_idw_01_2.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th1_idw01_2, paste0(path_tests,
+                                                        "dtm_2014_79_xyzirnc_pmf_th1_idw_01_2.tif"),
                                                         format = "GTiff", overwrite = TRUE)
 
 #0.1 with half of the default settings####
-LIDR_2014_1_pmf_th1_idw01_3 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th1, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
+LIDR_2014_79_pmf_th1_idw01_3 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th1, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th1_idw01_3)
+print(LIDR_2014_79_pmf_th1_idw01_3)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th1_idw01_3, paste0(path_tests,
-                                                        "dtm_2014_1_xyzirnc_pmf_th1_idw_01_3.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th1_idw01_3, paste0(path_tests,
+                                                        "dtm_2014_79_xyzirnc_pmf_th1_idw_01_3.tif"),
                                                         format = "GTiff", overwrite = TRUE)
 
 #0.1 + double of the default settings####
-LIDR_2014_1_pmf_th1_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th1, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
+LIDR_2014_79_pmf_th1_idw01_4 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th1, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th1_idw01_4)
+print(LIDR_2014_79_pmf_th1_idw01_4)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th1_idw01_4, paste0(path_tests,
-                                                        "dtm_2014_1_xyzirnc_pmf_th1_idw_01_4.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th1_idw01_4, paste0(path_tests,
+                                                        "dtm_2014_79_xyzirnc_pmf_th1_idw_01_4.tif"),
                                                         format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_pmf_th1_idw01_5 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th1, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_79_pmf_th1_idw01_5 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th1, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th1_idw01_5)
+print(LIDR_2014_79_pmf_th1_idw01_5)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th1_idw01_5, paste0(path_tests,
-                                                        "dtm_2014_1_xyzirnc_pmf_th1_idw_01_5.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th1_idw01_5, paste0(path_tests,
+                                                        "dtm_2014_79_xyzirnc_pmf_th1_idw_01_5.tif"),
                                                         format = "GTiff", overwrite = TRUE)
 
                     #LIDR_2014_1_pmf_th05####
 #0.1 + default settings####
-LIDR_2014_1_pmf_th05_idw01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th05, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+LIDR_2014_79_pmf_th05_idw01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th05, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th05_idw01)
+print(LIDR_2014_79_pmf_th05_idw01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th05_idw01, paste0(path_tests,
-                                                       "dtm_2014_1_xyzirnc_pmf_th05_idw_01.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th05_idw01, paste0(path_tests,
+                                                       "dtm_2014_79_xyzirnc_pmf_th05_idw_01.tif"),
                                                         format = "GTiff", overwrite = TRUE)
 
 #0.1 with setting from Chris####
-LIDR_2014_1_pmf_th05_idw01_2 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th05, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
+LIDR_2014_79_pmf_th05_idw01_2 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th05, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th05_idw01_2)
+print(LIDR_2014_79_pmf_th05_idw01_2)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th05_idw01_2, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th05_idw_01_2.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th05_idw01_2, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th05_idw_01_2.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 with half of the default settings####
-LIDR_2014_1_pmf_th05_idw01_3 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th05, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
+LIDR_2014_79_pmf_th05_idw01_3 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th05, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th05_idw01_3)
+print(LIDR_2014_79_pmf_th05_idw01_3)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th05_idw01_3, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th05_idw_01_3.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th05_idw01_3, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th05_idw_01_3.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 + double of the default settings####
-LIDR_2014_1_pmf_th05_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th05, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
+LIDR_2014_79_pmf_th05_idw01_4 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th05, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th05_idw01_4)
+print(LIDR_2014_79_pmf_th05_idw01_4)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th05_idw01_4, paste0(path_tests,
-                                                        "dtm_2014_1_xyzirnc_pmf_th05_idw_01_4.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th05_idw01_4, paste0(path_tests,
+                                                        "dtm_2014_79_xyzirnc_pmf_th05_idw_01_4.tif"),
                                                          format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_pmf_th05_idw01_5 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th05, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_79_pmf_th05_idw01_5 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th05, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th05_idw01_5)
+print(LIDR_2014_79_pmf_th05_idw01_5)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th05_idw01_5, paste0(path_tests,
-                                                        "dtm_2014_1_xyzirnc_pmf_th05_idw_01_5.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th05_idw01_5, paste0(path_tests,
+                                                        "dtm_2014_79_xyzirnc_pmf_th05_idw_01_5.tif"),
                                                          format = "GTiff", overwrite = TRUE)
                      #LIDR_2014_1_pmf_th04####
 #0.1 + default settings####
-LIDR_2014_1_pmf_th04_idw01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th04, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+LIDR_2014_79_pmf_th04_idw01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th04, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th04_idw01)
+print(LIDR_2014_79_pmf_th04_idw01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th04_idw01, paste0(path_tests,
-                                                       "dtm_2014_1_xyzirnc_pmf_th04_idw_01.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th04_idw01, paste0(path_tests,
+                                                       "dtm_2014_79_xyzirnc_pmf_th04_idw_01.tif"),
                                                         format = "GTiff", overwrite = TRUE)
 
 #0.1 with setting from Chris####
-LIDR_2014_1_pmf_th04_idw01_2 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th04, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
+LIDR_2014_79_pmf_th04_idw01_2 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th04, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th04_idw01_2)
+print(LIDR_2014_79_pmf_th04_idw01_2)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th04_idw01_2, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th04_idw_01_2.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th04_idw01_2, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th04_idw_01_2.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 with half of the default settings####
-LIDR_2014_1_pmf_th04_idw01_3 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th04, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
+LIDR_2014_79_pmf_th04_idw01_3 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th04, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th04_idw01_3)
+print(LIDR_2014_79_pmf_th04_idw01_3)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th04_idw01_3, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th04_idw_01_3.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th04_idw01_3, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th04_idw_01_3.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 + double of the default settings####
-LIDR_2014_1_pmf_th04_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th04, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
+LIDR_2014_79_pmf_th04_idw01_4 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th04, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th04_idw01_4)
+print(LIDR_2014_79_pmf_th04_idw01_4)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th04_idw01_4, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th04_idw_01_4.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th04_idw01_4, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th04_idw_01_4.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_pmf_th04_idw01_5 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th04, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_79_pmf_th04_idw01_5 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th04, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 246 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 1815 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 #check raster
-print(LIDR_2014_1_pmf_th04_idw01_5)
+print(LIDR_2014_79_pmf_th04_idw01_5)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th04_idw01_5, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th04_idw_01_5.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th04_idw01_5, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th04_idw_01_5.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 
                   #LIDR_2014_1_pmf_th03####
 #0.1 + default settings####
-LIDR_2014_1_pmf_th03_idw01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th03, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+LIDR_2014_79_pmf_th03_idw01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th03, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th03_idw01)
+print(LIDR_2014_79_pmf_th03_idw01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th03_idw01, paste0(path_tests,
-                                                       "dtm_2014_1_xyzirnc_pmf_th03_idw_01.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th03_idw01, paste0(path_tests,
+                                                       "dtm_2014_79_xyzirnc_pmf_th03_idw_01.tif"),
                                                         format = "GTiff", overwrite = TRUE)
 
 #0.1 with setting from Chris####
-LIDR_2014_1_pmf_th03_idw01_2 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th03, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
+LIDR_2014_79_pmf_th03_idw01_2 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th03, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th03_idw01_2)
+print(LIDR_2014_79_pmf_th03_idw01_2)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th03_idw01_2, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th03_idw_01_2.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th03_idw01_2, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th03_idw_01_2.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 with half of the default settings####
-LIDR_2014_1_pmf_th03_idw01_3 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th03, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
+LIDR_2014_79_pmf_th03_idw01_3 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th03, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th03_idw01_3)
+print(LIDR_2014_79_pmf_th03_idw01_3)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th03_idw01_3, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th03_idw_01_3.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th03_idw01_3, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th03_idw_01_3.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 + double of the default settings####
-LIDR_2014_1_pmf_th03_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th03, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
+LIDR_2014_79_pmf_th03_idw01_4 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th03, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th03_idw01_4)
+print(LIDR_2014_79_pmf_th03_idw01_4)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th03_idw01_4, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th03_idw_01_4.tif"),
-                    format = "GTiff", overwrite = TRUE)
+raster::writeRaster(LIDR_2014_79_pmf_th03_idw01_4, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th03_idw_01_4.tif"),
+                                                          format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_pmf_th03_idw01_5 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th03, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_79_pmf_th03_idw01_5 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th03, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 244 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 1782 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th03_idw01_5)
+print(LIDR_2014_79_pmf_th03_idw01_5)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th03_idw01_5, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th03_idw_01_5.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th03_idw01_5, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th03_idw_01_5.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
                            #LIDR_2014_1_pmf_th01####
 #0.1 + default settings####
-LIDR_2014_1_pmf_th01_idw01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th01, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+LIDR_2014_79_pmf_th01_idw01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th01, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th01_idw01)
+print(LIDR_2014_79_pmf_th01_idw01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th01_idw01, paste0(path_tests,
-                                                       "dtm_2014_1_xyzirnc_pmf_th01_idw_01.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th01_idw01, paste0(path_tests,
+                                                       "dtm_2014_79_xyzirnc_pmf_th01_idw_01.tif"),
                                                         format = "GTiff", overwrite = TRUE)
 
 #0.1 with setting from Chris####
-LIDR_2014_1_pmf_th01_idw01_2 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th01, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
+LIDR_2014_79_pmf_th01_idw01_2 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th01, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th01_idw01_2)
+print(LIDR_2014_79_pmf_th01_idw01_2)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th01_idw01_2, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th01_idw_01_2.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th01_idw01_2, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th01_idw_01_2.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 with half of the default settings####
-LIDR_2014_1_pmf_th01_idw01_3 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th01, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
+LIDR_2014_79_pmf_th01_idw01_3 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th01, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th01_idw01_3)
+print(LIDR_2014_79_pmf_th01_idw01_3)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th01_idw01_3, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th01_idw_01_3.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th01_idw01_3, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th01_idw_01_3.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 + double of the default settings####
-LIDR_2014_1_pmf_th01_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th01, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
+LIDR_2014_79_pmf_th01_idw01_4 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th01, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th01_idw01_4)
+print(LIDR_2014_79_pmf_th01_idw01_4)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th01_idw01_4, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th01_idw_01_4.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th01_idw01_4, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th01_idw_01_4.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_pmf_th01_idw01_5 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th01, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_79_pmf_th01_idw01_5 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th01, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th01_idw01_5)
+print(LIDR_2014_79_pmf_th01_idw01_5)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th01_idw01_5, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th01_idw_01_5.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th01_idw01_5, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th01_idw_01_5.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
                           #LIDR_2014_1_pmf_th005####
 #0.1 + default settings####
-LIDR_2014_1_pmf_th005_idw01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th005, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+LIDR_2014_79_pmf_th005_idw01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th005, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th005_idw01)
+print(LIDR_2014_79_pmf_th005_idw01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th005_idw01, paste0(path_tests,
-                                                       "dtm_2014_1_xyzirnc_pmf_th005_idw_01.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th005_idw01, paste0(path_tests,
+                                                       "dtm_2014_79_xyzirnc_pmf_th005_idw_01.tif"),
                                                         format = "GTiff", overwrite = TRUE)
 
 #0.1 with setting from Chris####
-LIDR_2014_1_pmf_th005_idw01_2 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th005, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
+LIDR_2014_79_pmf_th005_idw01_2 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th005, res= 0.1, algorithm = knnidw(k = 50L, p = 3))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th005_idw01_2)
+print(LIDR_2014_79_pmf_th005_idw01_2)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th005_idw01_2, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th005_idw_01_2.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th005_idw01_2, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th005_idw_01_2.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 with half of the default settings####
-LIDR_2014_1_pmf_th005_idw01_3 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th005, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
+LIDR_2014_79_pmf_th005_idw01_3 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th005, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th005_idw01_3)
+print(LIDR_2014_79_pmf_th005_idw01_3)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th005_idw01_3, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th005_idw_01_3.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th005_idw01_3, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th005_idw_01_3.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 + double of the default settings####
-LIDR_2014_1_pmf_th005_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th005, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
+LIDR_2014_79_pmf_th005_idw01_4 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th005, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th005_idw01_4)
+print(LIDR_2014_79_pmf_th005_idw01_4)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th005_idw01_4, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th005_idw_01_4.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th005_idw01_4, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th005_idw_01_4.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_pmf_th005_idw01_5 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf_th005, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_79_pmf_th005_idw01_5 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_pmf_th005, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 387 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2425 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_pmf_th005_idw01_5)
+print(LIDR_2014_79_pmf_th005_idw01_5)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_pmf_th005_idw01_5, paste0(path_tests,
-                                                         "dtm_2014_1_xyzirnc_pmf_th005_idw_01_5.tif"),
+raster::writeRaster(LIDR_2014_79_pmf_th005_idw01_5, paste0(path_tests,
+                                                         "dtm_2014_79_xyzirnc_pmf_th005_idw_01_5.tif"),
                                                           format = "GTiff", overwrite = TRUE)
 
                               #Cloth Simulation Function####
 #csf####
 #0.1 + default settings####
-LIDR_2014_1_csf_idw01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+LIDR_2014_79_csf_idw01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2262 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_csf_idw01)
+print(LIDR_2014_79_csf_idw01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_csf_idw01, paste0(path_tests,
-                                                          "dtm_2014_1_xyzirnc_csf_idw_01.tif"),
+raster::writeRaster(LIDR_2014_79_csf_idw01, paste0(path_tests,
+                                                          "dtm_2014_79_xyzirnc_csf_idw_01.tif"),
                                                            format = "GTiff", overwrite = TRUE)
 
 #0.1 with setting from Chris####
-LIDR_2014_1_csf_idw01_2 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf, res=0.1, algorithm = knnidw(k = 50L, p = 3))
+LIDR_2014_79_csf_idw01_2 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf, res=0.1, algorithm = knnidw(k = 50L, p = 3))
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2262 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_csf_idw01_2)
+print(LIDR_2014_79_csf_idw01_2)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_csf_idw01_2, paste0(path_tests,
-                                                            "dtm_2014_1_xyzirnc_csf_idw_01_2.tif"),
+raster::writeRaster(LIDR_2014_79_csf_idw01_2, paste0(path_tests,
+                                                            "dtm_2014_79_xyzirnc_csf_idw_01_2.tif"),
                                                             format = "GTiff", overwrite = TRUE)
 
 #0.1 with half of the default settings####
-LIDR_2014_1_csf_idw01_3 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
+LIDR_2014_79_csf_idw01_3 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2262 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_csf_idw01_3)
+print(LIDR_2014_79_csf_idw01_3)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_csf_idw01_3, paste0(path_tests,
-                                                            "dtm_2014_1_xyzirnc_csf_idw_01_3.tif"),
+raster::writeRaster(LIDR_2014_79_csf_idw01_3, paste0(path_tests,
+                                                            "dtm_2014_79_xyzirnc_csf_idw_01_3.tif"),
                                                             format = "GTiff", overwrite = TRUE)
 
 #0.1 with double of the default settings####
-LIDR_2014_1_csf_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
+LIDR_2014_79_csf_idw01_4 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2262 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_csf_idw01_4)
+print(LIDR_2014_79_csf_idw01_4)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_csf_idw01_4, paste0(path_tests,
-                                                    "dtm_2014_1_xyzirnc_csf_idw_01_4.tif"),
+raster::writeRaster(LIDR_2014_79_csf_idw01_4, paste0(path_tests,
+                                                    "dtm_2014_79_xyzirnc_csf_idw_01_4.tif"),
                                                     format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_csf_idw01_5 <- grid_terrain(LIDR_2014_1_xyzirnc_csf, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_79_csf_idw01_5 <- grid_terrain(LIDR_2014_79_xyzirnc_csf, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2262 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_csf_idw01_5)
+print(LIDR_2014_79_csf_idw01_5)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_csf_idw01_5, paste0(path_tests,
-                                                            "dtm_2014_1_xyzirnc_csf_idw_01_5.tif"),
+raster::writeRaster(LIDR_2014_79_csf_idw01_5, paste0(path_tests,
+                                                            "dtm_2014_79_xyzirnc_csf_idw_01_5.tif"),
                                                             format = "GTiff", overwrite = TRUE)
 
 #csf2####
 #0.1 + default settings####
-LIDR_2014_1_csf2_idw01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf2, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+LIDR_2014_79_csf2_idw01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf2, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2321 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_csf2_idw01)
+print(LIDR_2014_79_csf2_idw01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_csf2_idw01, paste0(path_tests,
-                                                   "dtm_2014_1_xyzirnc_csf2_idw_01.tif"),
+raster::writeRaster(LIDR_2014_79_csf2_idw01, paste0(path_tests,
+                                                   "dtm_2014_79_xyzirnc_csf2_idw_01.tif"),
                                                     format = "GTiff", overwrite = TRUE)
 
 #0.1 with setting from Chris####
-LIDR_2014_1_csf2_idw01_2 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf2, res=0.1, algorithm = knnidw(k = 50L, p = 3))
+LIDR_2014_79_csf2_idw01_2 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf2, res=0.1, algorithm = knnidw(k = 50L, p = 3))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2321 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_csf2_idw01_2)
+print(LIDR_2014_79_csf2_idw01_2)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_csf2_idw01_2, paste0(path_tests,
-                                                     "dtm_2014_1_xyzirnc_csf2_idw_01_2.tif"),
+raster::writeRaster(LIDR_2014_79_csf2_idw01_2, paste0(path_tests,
+                                                     "dtm_2014_79_xyzirnc_csf2_idw_01_2.tif"),
                                                      format = "GTiff", overwrite = TRUE)
 
 #0.1 with half of the default settings####
-LIDR_2014_1_csf2_idw01_3 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf2, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
+LIDR_2014_79_csf2_idw01_3 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf2, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2321 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_csf2_idw01_3)
+print(LIDR_2014_79_csf2_idw01_3)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_csf2_idw01_3, paste0(path_tests,
-                                                     "dtm_2014_1_xyzirnc_csf2_idw_01_3.tif"),
+raster::writeRaster(LIDR_2014_79_csf2_idw01_3, paste0(path_tests,
+                                                     "dtm_2014_79_xyzirnc_csf2_idw_01_3.tif"),
                                                      format = "GTiff", overwrite = TRUE)
 
 #0.1 with double of the default settings####
-LIDR_2014_1_csf2_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf2, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
+LIDR_2014_79_csf2_idw01_4 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf2, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2321 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_csf2_idw01_4)
+print(LIDR_2014_79_csf2_idw01_4)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_csf2_idw01_4, paste0(path_tests,
-                                                     "dtm_2014_1_xyzirnc_csf2_idw_01_4.tif"),
+raster::writeRaster(LIDR_2014_79_csf2_idw01_4, paste0(path_tests,
+                                                     "dtm_2014_79_xyzirnc_csf2_idw_01_4.tif"),
                                                      format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_csf2_idw01_5 <- grid_terrain(LIDR_2014_1_xyzirnc_csf2, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_79_csf2_idw01_5 <- grid_terrain(LIDR_2014_79_xyzirnc_csf2, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2321 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_csf2_idw01_5)
+print(LIDR_2014_79_csf2_idw01_5)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_csf2_idw01_5, paste0(path_tests,
-                                                     "dtm_2014_1_xyzirnc_csf2_idw_01_5.tif"),
+raster::writeRaster(LIDR_2014_79_csf2_idw01_5, paste0(path_tests,
+                                                     "dtm_2014_79_xyzirnc_csf2_idw_01_5.tif"),
                                                      format = "GTiff", overwrite = TRUE)
 
 #csf3####
 #0.1 + default settings####
-LIDR_2014_1_xyzirnc_csf3_idw01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf3, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+LIDR_2014_79_xyzirnc_csf3_idw01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf3, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2322 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_csf3_idw01)
+print(LIDR_2014_79_xyzirnc_csf3_idw01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf3_idw01, paste0(path_tests,
-                                                           "dtm_2014_1_xyzirnc_csf3_idw_01.tif"),
+raster::writeRaster(LIDR_2014_79_xyzirnc_csf3_idw01, paste0(path_tests,
+                                                           "dtm_2014_79_xyzirnc_csf3_idw_01.tif"),
                                                             format = "GTiff", overwrite = TRUE)
 
 #0.1 with setting from Chris####
-LIDR_2014_1_xyzirnc_csf3_idw01_2 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf3, res=0.1, algorithm = knnidw(k = 50L, p = 3))
+LIDR_2014_79_xyzirnc_csf3_idw01_2 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf3, res=0.1, algorithm = knnidw(k = 50L, p = 3))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2322 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_csf3_idw01_2)
+print(LIDR_2014_79_xyzirnc_csf3_idw01_2)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf3_idw01_2, paste0(path_tests,
-                                                             "dtm_2014_1_xyzirnc_csf3_idw_01_2.tif"),
+raster::writeRaster(LIDR_2014_79_xyzirnc_csf3_idw01_2, paste0(path_tests,
+                                                             "dtm_2014_79_xyzirnc_csf3_idw_01_2.tif"),
                                                              format = "GTiff", overwrite = TRUE)
 
 #0.1 with half of the default settings####
-LIDR_2014_1_xyzirnc_csf3_idw01_3 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf3, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
+LIDR_2014_79_xyzirnc_csf3_idw01_3 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf3, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2322 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_csf3_idw01_3)
+print(LIDR_2014_79_xyzirnc_csf3_idw01_3)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf3_idw01_3, paste0(path_tests,
-                                                             "dtm_2014_1_xyzirnc_csf3_idw_01_3.tif"),
+raster::writeRaster(LIDR_2014_79_xyzirnc_csf3_idw01_3, paste0(path_tests,
+                                                             "dtm_2014_79_xyzirnc_csf3_idw_01_3.tif"),
                                                               format = "GTiff", overwrite = TRUE)
 
 #0.1 with double of the default settings####
-LIDR_2014_1_xyzirnc_csf3_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf3, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
+LIDR_2014_79_xyzirnc_csf3_idw01_4 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf3, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2322 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_csf3_idw01_4)
+print(LIDR_2014_79_xyzirnc_csf3_idw01_4)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf3_idw01_4, paste0(path_tests,
-                                                             "dtm_2014_1_xyzirnc_csf3_idw_01_4.tif"),
+raster::writeRaster(LIDR_2014_79_xyzirnc_csf3_idw01_4, paste0(path_tests,
+                                                             "dtm_2014_79_xyzirnc_csf3_idw_01_4.tif"),
                                                               format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_xyzirnc_csf3_idw01_5 <- grid_terrain(LIDR_2014_1_xyzirnc_csf3, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_79_xyzirnc_csf3_idw01_5 <- grid_terrain(LIDR_2014_79_xyzirnc_csf3, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2322 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #csf4####
 #0.1 + default settings####
-LIDR_2014_1_xyzirnc_csf4_idw01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf4, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
+LIDR_2014_79_xyzirnc_csf4_idw01 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf4, res=0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2322 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_csf4_idw01)
+print(LIDR_2014_79_xyzirnc_csf4_idw01)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf4_idw01, paste0(path_tests,
-                                                           "dtm_2014_1_xyzirnc_csf4_idw_01.tif"),
+raster::writeRaster(LIDR_2014_79_xyzirnc_csf4_idw01, paste0(path_tests,
+                                                           "dtm_2014_79_xyzirnc_csf4_idw_01.tif"),
                                                             format = "GTiff", overwrite = TRUE)
 
 #0.1 with setting from Chris####
-LIDR_2014_1_xyzirnc_csf4_idw01_2 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf4, res=0.1, algorithm = knnidw(k = 50L, p = 3))
+LIDR_2014_79_xyzirnc_csf4_idw01_2 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf4, res=0.1, algorithm = knnidw(k = 50L, p = 3))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2322 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_csf4_idw01_2)
+print(LIDR_2014_79_xyzirnc_csf4_idw01_2)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf4_idw01_2, paste0(path_tests,
-                                                             "dtm_2014_1_xyzirnc_csf4_idw_01_2.tif"),
+raster::writeRaster(LIDR_2014_79_xyzirnc_csf4_idw01_2, paste0(path_tests,
+                                                             "dtm_2014_79_xyzirnc_csf4_idw_01_2.tif"),
                                                               format = "GTiff", overwrite = TRUE)
 
 #0.1 with half of the default settings####
-LIDR_2014_1_xyzirnc_csf4_idw01_3 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf4, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
+LIDR_2014_79_xyzirnc_csf4_idw01_3 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf4, res=0.1, algorithm = knnidw(k = 5L, p = 2, rmax = 25))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2322 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
 #check raster
-print(LIDR_2014_1_xyzirnc_csf4_idw01_3)
+print(LIDR_2014_79_xyzirnc_csf4_idw01_3)
 
 #write/export as raster
 raster::writeRaster(LIDR_2014_1_xyzirnc_csf4_idw01_3, paste0(path_tests,
@@ -1439,7 +1438,7 @@ raster::writeRaster(LIDR_2014_1_xyzirnc_csf4_idw01_3, paste0(path_tests,
                                                               format = "GTiff", overwrite = TRUE)
 
 #0.1 with double of the default settings####
-LIDR_2014_1_xyzirnc_csf4_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf4, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
+LIDR_2014_79_xyzirnc_csf4_idw01_4 <- lidR::grid_terrain(LIDR_2014_79_xyzirnc_csf4, res=0.1, algorithm = knnidw(k = 20L, p = 4, rmax = 50))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2322 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
@@ -1447,12 +1446,12 @@ LIDR_2014_1_xyzirnc_csf4_idw01_4 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf4,
 print(LIDR_2014_1_xyzirnc_csf4_idw01_4)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf4_idw01_4, paste0(path_tests,
-                                                             "dtm_2014_1_xyzirnc_csf4_idw_01_4.tif"),
+raster::writeRaster(LIDR_2014_79_xyzirnc_csf4_idw01_4, paste0(path_tests,
+                                                             "dtm_2014_79_xyzirnc_csf4_idw_01_4.tif"),
                                                               format = "GTiff", overwrite = TRUE)
 
 #0.1 + multiple and half of the default settings####
-LIDR_2014_1_xyzirnc_csf4_idw01_5 <- grid_terrain(LIDR_2014_1_xyzirnc_csf4, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
+LIDR_2014_79_xyzirnc_csf4_idw01_5 <- grid_terrain(LIDR_2014_79_xyzirnc_csf4, res=0.1, algorithm = knnidw(k = 50L, p = 6, rmax = 25))
 #1: There were 378 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
 #2: There were 2322 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
 
@@ -1460,51 +1459,12 @@ LIDR_2014_1_xyzirnc_csf4_idw01_5 <- grid_terrain(LIDR_2014_1_xyzirnc_csf4, res=0
 print(LIDR_2014_1_xyzirnc_csf4_idw01_5)
 
 #write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf4_idw01_5, paste0(path_tests,
-                                                             "dtm_2014_1_xyzirnc_csf4_idw_01_5.tif"),
+raster::writeRaster(LIDR_2014_79_xyzirnc_csf4_idw01_5, paste0(path_tests,
+                                                             "dtm_2014_79_xyzirnc_csf4_idw_01_5.tif"),
                                                               format = "GTiff", overwrite = TRUE)
 
                          ####Kriging####
 #way tooo slow ATM
-#using the point classification####
-LIDR_2014_1_ground_krig01 <- lidR::grid_terrain(LIDR_2014_1_ground, res= 0.1, algorithm = kriging())
-#
-
-#check raster
-print(LIDR_2014_1_ground_krig01)
-
-#write/export as raster
-raster::writeRaster(LIDR_2014_1_ground_krig01, paste0(path_tests,
-                                                     "dtm_2014_1_ground_krig_01.tif"),
-                                                      format = "GTiff", overwrite = TRUE)
-
-#Progressive Morphological Filter####
-LIDR_2014_1_xyzirnc_pmf_krig01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_pmf, res=0.1, algorithm = kriging())
-#
-
-#check raster
-print(LIDR_2014_1_xyzirnc_pmf_krig01)
-
-#write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_pmf_krig01, paste0(path_tests,
-                                                           "dtm_2014_1_xyzirnc_pmf_krig_01.tif"),
-                                                            format = "GTiff", overwrite = TRUE)
-
-#Cloth Simulation Function####
-LIDR_2014_1_xyzirnc_csf_krig01 <- lidR::grid_terrain(LIDR_2014_1_xyzirnc_csf, res=0.1, algorithm = kriging())
-#
-
-#check raster
-print(LIDR_2014_1_xyzirnc_csf_krig01)
-
-#write/export as raster
-raster::writeRaster(LIDR_2014_1_xyzirnc_csf_krig01, paste0(path_tests,
-                                                           "dtm_2014_1_xyzirnc_csf_krig_01.tif"),
-                                                           format = "GTiff", overwrite = TRUE)
-
-
-
-
                    ####Comparing the DTM results####
 
 #The test DTMs have been compared visually in QGIS. Keeping the aim of this thesis:
