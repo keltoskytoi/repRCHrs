@@ -5,15 +5,11 @@ lsLIDAR14 <- list.files(("E:/REPO/LiDAR_14"),
                         pattern = glob2rx("*.laz"),
                         full.names = TRUE)
 
-lsDTMs <- list.files(("E:/REPO/LidR_test"),
-                        pattern = glob2rx("*.tif"),
-                        full.names = TRUE)
-
 #define points for cross section:
-point1 <- c(486000, 5625000) #xy
-point2 <- c(486500, 5625500) #xy
-point3 <- c(486500, 5625500) #xy
-point4 <- c(487000, 5626000) #xy
+point1 <- c(478000, 5616000) #xy
+point2 <- c(478500, 5616500) #xy
+point3 <- c(478500, 5616500) #xy
+point4 <- c(479000, 5617000) #xy
 
 ###############################READ 1 LAZ FILE##################################
 #read data####
@@ -137,7 +133,7 @@ lidR::print(LIDR_2014_1_xyzirnc)
 #density      : 12.72 points/m²
 
                     ####USING POINT CLASSIFICATION####
-LIDR_2014_162_ground <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc", filter ="keep_class 2")
+LIDR_2014_1_ground <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc", filter ="keep_class 2")
 
 print(LIDR_2014_1_ground)
 #class        : LAS (v1.3 format 1)
@@ -152,7 +148,7 @@ print(LIDR_2014_1_ground)
 sp::proj4string(LIDR_2014_1_ground) <- sp::CRS("+init=epsg:25832")
 
 LIDR_2014_1_ground_clipped <- clip_transect(LIDR_2014_1_ground, point1, point2, width = 4, xz = TRUE)
-ggplot(LIDR_2014_162_ground_clipped@data, aes(X,Z, color = Z)) +
+ggplot(LIDR_2014_1_ground_clipped@data, aes(X,Z, color = Z)) +
   geom_point(size = 0.5) +
   coord_equal() +
   theme_minimal() +
@@ -173,7 +169,7 @@ plot_crossection(LIDR_2014_1_ground_clipped2, colour_by = factor(Classification)
 
 #first let's test a simple morphological filter (see LidRbook)####
 LIDR_2014_1_xyzirnc_pmf <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 3))
-#Original dataset already contains 6673368 ground points. These points were
+#Original dataset already contains 7718079 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
 
 #make a cross section and check the classification results:
@@ -196,7 +192,7 @@ plot_crossection(LIDR_2014_1_xyzirnc_pmf_clipped2, colour_by = factor(Classifica
 
 #th1####
 LIDR_2014_1_xyzirnc_pmf_th1 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 1))
-#Original dataset already contains 6673368 ground points. These points were
+#Original dataset already contains 7718079 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
 
 #make a cross section and check the classification results:
@@ -219,7 +215,7 @@ plot_crossection(LIDR_2014_1_xyzirnc_pmf_th1_clipped2, colour_by = factor(Classi
 
 #th05####
 LIDR_2014_1_xyzirnc_pmf_th05 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 0.5))
-#Original dataset already contains 6673368 ground points. These points were
+#Original dataset already contains 7718079 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
 
 #make a cross section and check the classification results:
@@ -242,8 +238,10 @@ plot_crossection(LIDR_2014_1_xyzirnc_pmf_th05_clipped2, colour_by = factor(Class
 
 #th04####
 LIDR_2014_1_xyzirnc_pmf_th04 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 0.4))
-#Original dataset already contains 6673368 ground points. These points were
+#Original dataset already contains 7718079 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
+
+print(LIDR_2014_1_xyzirnc_pmf_th04)
 
 #make a cross section and check the classification results:
 LIDR_2014_1_xyzirnc_pmf_th04_clipped <- clip_transect(LIDR_2014_1_xyzirnc_pmf_th04, point1, point2, width = 4, xz = TRUE)
@@ -266,7 +264,7 @@ plot_crossection(LIDR_2014_1_xyzirnc_pmf_th04_clipped2, colour_by = factor(Class
 
 #th03####
 LIDR_2014_1_xyzirnc_pmf_th03 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 0.3))
-#Original dataset already contains 6673368 ground points. These points were
+#Original dataset already contains 7718079 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
 
 #make a cross section and check the classification results:
@@ -289,7 +287,7 @@ plot_crossection(LIDR_2014_1_xyzirnc_pmf_th03_clipped2, colour_by = factor(Class
 
 #th01####
 LIDR_2014_1_xyzirnc_pmf_th01 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 0.1))
-#Original dataset already contains 6673368 ground points. These points were
+#Original dataset already contains 7718079 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
 
 #make a cross section and check the classification results:
@@ -312,7 +310,7 @@ plot_crossection(LIDR_2014_1_xyzirnc_pmf_th01_clipped2, colour_by = factor(Class
 
 #th005####
 LIDR_2014_1_xyzirnc_pmf_th005 <- lidR::classify_ground(LIDR_2014_1_xyzirnc, algorithm = pmf(ws = 5, th = 0.05))
-#Original dataset already contains 6673368 ground points. These points were
+#Original dataset already contains 7718079 ground points. These points were
 #reclassified as 'unclassified' before performing a new ground classification.
 
 #make a cross section and check the classification results:
@@ -332,9 +330,6 @@ ggplot(LIDR_2014_1_xyzirnc_pmf_th01_clipped2@data, aes(X,Z, color = Z)) +
 
 plot_crossection(LIDR_2014_1_xyzirnc_pmf_th005_clipped, colour_by = factor(Classification))
 plot_crossection(LIDR_2014_1_xyzirnc_pmf_th005_clipped2, colour_by = factor(Classification))
-
-
-
 
                           ####CLOTH SIMULATION FUNCTION####
                             #based on Zhang et al 2016
