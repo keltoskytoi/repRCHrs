@@ -15,6 +15,7 @@ if(Sys.info()["sysname"] == "Windows"){
 #+++ supplementing the folder structure of 'rrtools'
 paths<-link2GI::initProj(projRootDir = projRootDir,
                          projFolders = c("analysis/data/dtm2014/",
+                                         "analysis/data/dtm2014_merged/",
                                          "analysis/data/dtm2018a/",
                                          "analysis/data/dtm2018b/",
                                          "analysis/data/dtm2018c/",
