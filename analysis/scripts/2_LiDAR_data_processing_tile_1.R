@@ -18,39 +18,39 @@ LIDR_2014_1 <- lidR::readLAS(lsLIDAR14[1])
 #Invalid data: ScanAngleRank greater than 90 degrees
 print(LIDR_2014_1)
 #class        : LAS (v1.3 format 1)
-#memory       : 970.6 Mb
-#extent       : 486000, 487000, 5625000, 5626000 (xmin, xmax, ymin, ymax)
+#memory       : 780.3 Mb
+#extent       : 478000, 479000, 5616000, 5617000 (xmin, xmax, ymin, ymax)
 #coord. ref.  : NA
 #area         : 1 kunits²
-#points       : 12.72 million points
-#density      : 12.72 points/units²
+#points       : 10.23 million points
+#density      : 10.23 points/units²
 
 #assign projection#####
-sp::proj4string(LIDR_2014_1) <- sp::CRS("+init=epsg:25832")
+sp::proj4string(LIDR_2014_1) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
 
 #print again#
 lidR::print(LIDR_2014_1)
 #class        : LAS (v1.3 format 1)
-#memory       : 970.6 Mb
-#extent       : 486000, 487000, 5625000, 5626000 (xmin, xmax, ymin, ymax)
-#coord. ref.  : ETRS89 / UTM zone 32N
+#memory       : 780.3 Mb
+#extent       : 478000, 479000, 5616000, 5617000 (xmin, xmax, ymin, ymax)
+#coord. ref.  : +proj=utm +zone=32 +datum=WGS84 +units=m +no_defs
 #area         : 1 km²
-#points       : 12.72 million points
-#density      : 12.72 points/m²
+#points       : 10.23 million points
+#density      : 10.23 points/m²
 
 #summary####
 lidR::summary(LIDR_2014_1)
 #class        : LAS (v1.3 format 1)
-#memory       : 970.6 Mb
-#extent       : 486000, 487000, 5625000, 5626000 (xmin, xmax, ymin, ymax)
-#coord. ref.  : ETRS89 / UTM zone 32N
+#memory       : 780.3 Mb
+#extent       : 478000, 479000, 5616000, 5617000 (xmin, xmax, ymin, ymax)
+#coord. ref.  : +proj=utm +zone=32 +datum=WGS84 +units=m +no_defs
 #area         : 1 km²
-#points       : 12.72 million points
-#density      : 12.72 points/m²
+#points       : 10.23 million points
+#density      : 10.23 points/m²
 #File signature:           LASF
 #File source ID:           0
 #Global encoding:
-#  - GPS Time Type: GPS Week Time
+#- GPS Time Type: GPS Week Time
 #- Synthetic Return Numbers: no
 #- Well Know Text: CRS is GeoTIFF
 #- Aggregate Model: false
@@ -58,18 +58,18 @@ lidR::summary(LIDR_2014_1)
 #Version:                  1.3
 #System identifier:        LAStools (c) by rapidlasso GmbH
 #Generating software:      lasmerge (version 161114)
-#File creation d/y:        0/0
+#File creation d/y:        122/2016
 #header size:              235
-#Offset to point data:     237
+#Offset to point data:     235
 #Num. var. length record:  0
 #Point data format:        1
 #Point data record length: 28
-#Num. of point records:    12721378
-#Num. of points by return: 8964980 3028790 655210 68797 3523
+#Num. of point records:    10227004
+#Num. of points by return: 8999985 949108 240884 34535 2423
 #Scale factor X Y Z:       0.001 0.001 0.001
-#Offset X Y Z:             486000.3 5625000 300
-#min X Y Z:                486000 5625000 244.46
-#max X Y Z:                487000 5626000 392.82
+#Offset X Y Z:             478000 5616942 100
+#min X Y Z:                478000 5616000 166
+#max X Y Z:                479000 5617000 264.9
 #Variable length records:  void
 
 #plot in pointcloud viewer
@@ -79,9 +79,9 @@ lidR::summary(LIDR_2014_1)
 #before getting started it is always good to check the data quality
 
 lidR::las_check(LIDR_2014_1)
-#⚠ 269 points are duplicated and share XYZ coordinates with other points
-#⚠ There were 244 generated ground points. Some X Y Z coordinates were repeated.
-#⚠ There were 1762 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates.
+#⚠ 202 points are duplicated and share XYZ coordinates with other points
+#⚠ There were 2370 generated ground points. Some X Y Z coordinates were repeated.
+#⚠ There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates.
 #⚠ 'ScanDirectionFlag' attribute is not populated.
 #⚠ A proj4string found but no CRS in the header.
 #- Checking normalization... no
@@ -122,30 +122,30 @@ LIDR_2014_1_xyzirnc <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc")
 print(LIDR_2014_1_xyzirnc) #no CRS
 
 #assign projection
-sp::proj4string(LIDR_2014_1_xyzirnc) <- sp::CRS("+init=epsg:25832")
+sp::proj4string(LIDR_2014_1_xyzirnc) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
 lidR::print(LIDR_2014_1_xyzirnc)
 #class        : LAS (v1.3 format 1)
-#memory       : 485.3 Mb
-#extent       : 486000, 487000, 5625000, 5626000 (xmin, xmax, ymin, ymax)
-#coord. ref.  : ETRS89 / UTM zone 32N
+#memory       : 390.1 Mb
+#extent       : 478000, 479000, 5616000, 5617000 (xmin, xmax, ymin, ymax)
+#coord. ref.  : +proj=utm +zone=32 +datum=WGS84 +units=m +no_defs
 #area         : 1 km²
-#points       : 12.72 million points
-#density      : 12.72 points/m²
+#points       : 10.23 million points
+#density      : 10.23 points/m²
 
                     ####USING POINT CLASSIFICATION####
 LIDR_2014_1_ground <- lidR::readLAS(lsLIDAR14[1], select = "xyzirnc", filter ="keep_class 2")
 
 print(LIDR_2014_1_ground)
 #class        : LAS (v1.3 format 1)
-#memory       : 485.3 Mb
-#extent       : 486000, 487000, 5625000, 5626000 (xmin, xmax, ymin, ymax)
+#memory       : 390.1 Mb
+#extent       : 478000, 479000, 5616000, 5617000 (xmin, xmax, ymin, ymax)
 #coord. ref.  : NA
 #area         : 1 kunits²
-#points       : 12.72 million points
-#density      : 12.72 points/units²
+#points       : 10.23 million points
+#density      : 10.23 points/units²
 
 #assign projection
-sp::proj4string(LIDR_2014_1_ground) <- sp::CRS("+init=epsg:25832")
+sp::proj4string(LIDR_2014_1_ground) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
 
 LIDR_2014_1_ground_clipped <- clip_transect(LIDR_2014_1_ground, point1, point2, width = 4, xz = TRUE)
 ggplot(LIDR_2014_1_ground_clipped@data, aes(X,Z, color = Z)) +
@@ -676,8 +676,9 @@ raster::writeRaster(LIDR_2014_1_xyzirnc_csf3_tin01, paste0(path_tests, "dtm_2014
                     #using the point classification####
 #0.1 + default settings####
 LIDR_2014_1_ground_idw01 <- lidR::grid_terrain(LIDR_2014_1_ground, res= 0.1, algorithm = knnidw(k = 10L, p = 2, rmax = 50))
-#1: There were 251 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
-#2: There were 1989 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
+#1: There were 370 degenerated ground points. Some X Y Z coordinates were repeated. They were removed.
+#2: There were 2247 degenerated ground points. Some X Y coordinates were repeated but with different Z coordinates. min Z were retained.
+
 #check raster
 print(LIDR_2014_1_ground_idw01)
 

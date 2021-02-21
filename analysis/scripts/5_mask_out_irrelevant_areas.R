@@ -1,4 +1,85 @@
- ####++CUT THE OSM LANDUSE MAP TO THE SIZE OF THE SMALLEST LIDAR DATASET++####
+                    ####++MERGE THE 2014 DTMS++####
+
+#first make sure they have the same projection
+tiff_list <- list.files(paste0(path_analysis_data_dtm2014), full.names = TRUE,
+                        pattern = glob2rx("*.tif"))
+
+proj_new <- '+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0'
+
+for (i in 1:length(tiff_list)) {
+  r <- raster(tiff_list[i])
+  prj <- projectRaster(r, crs=proj_new, method = 'bilinear', res = 0.1,
+                       filename = paste0(path_analysis_data_dtm2014_repr, names(r), "_reprj.tif"),
+                       format="GTiff", overwrite=TRUE)
+}
+
+#Warnmeldungen:
+#1: In projectRaster(r, crs = proj_new, method = "bilinear",  ... : input and ouput crs are the same
+#great! so this step can be left out! this is just to make sure that the crs matches!!!
+
+
+test <- raster::raster("E:/repRCHrs/analysis/data/dtm2014/3dm_32478_5616_1_he_xyzirnc_ground_IDW01.tif")
+plot(test)
+hist(test,
+     main = "Distribution of surface elevation values",
+     xlab = "Elevation (meters)", ylab = "Frequency",
+     col = "springgreen")
+
+tiff_list_2 <- list.files(paste0(path_tests), full.names = TRUE,
+                        pattern = glob2rx("*.tif"))
+
+#then check all raster for missing data by plotting their histrograms
+par(mfrow = c(2, 2))
+for (i in 1:length(tiff_list_2)) {
+    r <- raster(tiff_list_2[i])
+    hist(r,
+         main = paste("Distribution of surface elevation values", i),
+         xlab = "Elevation (meters)", ylab = "Frequency",
+         col = "goldenrod")
+}
+
+
+# wd and paths
+
+#wd <- ("E:/Lidar_Arch/basic_R_scr/merge_tif_folder")
+#setwd(wd)
+
+raster_in <- paste0(path_tests)
+raster_out <- paste0(path_analysis_data_dtm2014_merged)
+
+
+# shorts and vars.
+
+merged_raster <- ("DTM2014_49_merged")
+
+
+# Build list of all raster files you want to join (in your current working directory).
+raster_files <-  list.files(raster_in,
+                            pattern = glob2rx("*.tif"),
+                            full.names = TRUE)
+
+all_my_rasts <- c(raster_files)
+
+
+# Make a template raster file to build onto. Think of this a big blank canvas to add tiles to.
+
+e <- extent(478000 , 488000, 5616000, 5634000)
+template <- raster(e)
+projection(template) <- '+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0'
+writeRaster(template, file=paste0(raster_out, "/", merged_raster, ".tif"), format="GTiff")
+
+# Merge all raster tiles into one big raster.
+mosaic_rasters(gdalfile=all_my_rasts, dst_dataset=paste0(raster_out, "/", merged_raster, ".tif"), of="GTiff")
+
+
+gdalinfo(merged_raster)
+
+
+plot(merged_raster)
+
+
+
+####++CUT THE OSM LANDUSE MAP TO THE SIZE OF THE SMALLEST LIDAR DATASET++####
 
 #load landuse in Hessen
 landuse_Hessen <- readOGR(paste0(path_analysis_data_LiDAR_data, "gis_osm_landuse_a_free_1.shp"))
@@ -20,7 +101,6 @@ crs(outline_LiDAR_2018)
 #CRS arguments: #+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs
 extent(outline_LiDAR_2018)
 
-
 #transform the crs of landuse in Hessen
 landuse_Hessen_trsfd <- spTransform(landuse_Hessen,
                                     crs(outline_LiDAR_2018))
@@ -33,7 +113,6 @@ lu_HE_cropped<- crop(outline_LiDAR_2018, landuse_Hessen_trsfd)
 
 #because the lu layer for Hessen is more than 1 GB in size, R struggles to cut the 180 km2s
 #thus it was than in QGIS to make it quick and dirty...
-
 
  ####++FITLER THE LIDAR2018 OSM LANDUSE MAP FOR THE RELEVANT STRUCTURES++####
 
@@ -89,60 +168,4 @@ plot(LIDAR2018_lu_osm_repr_filt)
 rgdal::writeOGR(obj=LIDAR2018_lu_osm_repr_filt, dsn = "E:/repRCHrs/analysis/data/LiDAR_data",
                 layer ="LIDAR2018_lu_osm_repr_filt", driver = "ESRI Shapefile",
                 verbose = TRUE, overwrite_layer = TRUE)
-
-                         ####++MERGE THE 2014 DTMS++####
-
-
-
-
-
-tiff_list <- list.files(paste0(path_analysis_data_dtm2014), full.names = TRUE,
-                        pattern = glob2rx("*.tif"))
-
-
-
-
-
-
-
-
-# wd and paths
-
-#wd <- ("E:/Lidar_Arch/basic_R_scr/merge_tif_folder")
-#setwd(wd)
-
-raster_in <- paste0(path_analysis_data_dtm2014)
-raster_out <- paste0(path_analysis_data_dtm2014_merged)
-
-
-# shorts and vars.
-
-merged_raster <- ("DTM2014_mgrd")
-
-
-# Build list of all raster files you want to join (in your current working directory).
-
-raster_files <-  list.files(raster_in,
-                            pattern = glob2rx("*.tif"),
-                            full.names = TRUE)
-
-all_my_rasts <- c(raster_files)
-
-
-# Make a template raster file to build onto. Think of this a big blank canvas to add tiles to.
-
-e <- extent(478000 , 488000, 5616000, 5634000)
-template <- raster(e)
-projection(template) <- '+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0'
-writeRaster(template, file=paste0(raster_out, "/", merged_raster, ".tif"), format="GTiff")
-
-# Merge all raster tiles into one big raster.
-mosaic_rasters(gdalfile=all_my_rasts, dst_dataset=paste0(raster_out, "/", merged_raster, ".tif"), of="GTiff")
-
-
-gdalinfo(merged_raster)
-
-
-plot(merged_raster)
-
 
