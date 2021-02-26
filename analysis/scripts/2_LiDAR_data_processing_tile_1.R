@@ -87,7 +87,7 @@ lidR::las_check(LIDR_2014_1)
 #- Checking normalization... no
 
 ################################################################################
-#########################(RE)CLASSIFICATION OF GROUND POINTS########################
+#########################(RE)CLASSIFICATION OF GROUND POINTS####################
 #set the number of threads/cores lidR should use
 getDTthreads() #6
 lidR::set_lidr_threads(4)
@@ -1460,14 +1460,14 @@ raster::writeRaster(LIDR_2014_1_xyzirnc_csf4_idw01_5, paste0(path_tests,
                                                               format = "GTiff", overwrite = TRUE)
 
                          ####Kriging####
-#way tooo slow ATM
+#way tooo slow
                    ####Comparing the DTM results####
 
 #The test DTMs have been compared visually in QGIS. Keeping the aim of this thesis:
 #the terrain should be as accurate as possible BUT there should be as minimal
 #disturbances and artifacts/noise in the texture of the terrain as possible not to compete
 #with the archaeological objects to be detected. Thus the existing ground
-#classification, the pmf and csf was compared with TIN and IDW interpolation and
+#classification, pmf and csf was compared with TIN and IDW interpolation and
 #it has been found that the ground classification + IDW gives the smoothest surface.
 #Kriging is taking way too long and DTM generation is only a tool not the aim of
 #this thesis.
@@ -1494,7 +1494,6 @@ LIDR_2014_79_xyzirnc_pmf_th04 <- lidR::classify_ground(LIDR_2014_79_xyzirnc, alg
 #define points for cross section:
 point3 <- c(482673, 5618847) #xy
 point4 <- c(482669, 5618720) #xy
-
 point5 <- c(482588, 5618768) #xy
 point6 <- c(482724, 5618755) #xy
 
