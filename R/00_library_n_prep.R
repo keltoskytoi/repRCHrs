@@ -1,7 +1,7 @@
 #Packages in the library
 library<-c("gdalUtils", "glcm","raster","rgdal", "mapview", "sp", "spData",
            "sf", "tools", "RStoolbox", "rgeos", "lattice", "ggplot2",
-           "RColorBrewer", "signal", "rootSolve", "link2GI", "CAST",
+           "DiagrammeR", "RColorBrewer", "signal", "rootSolve", "link2GI", "CAST",
            "caret", "doParallel", "data.table", "ggridges",
            "dplyr", "tidyverse", "hrbrthemes", "plyr", "ggridges",
            "plotly", "GGally", "rlas",  "lidR", "rLiDAR", "future",

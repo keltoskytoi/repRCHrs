@@ -1,4 +1,4 @@
-filled_DTM <- function(dtm, output, tmp, minslope) {
+filled_DTM <- function(dtm, output, tmp, minslope, crs) {
   cat(" ",sep = "\n")
   cat("### filled_DTM starts ###")
   raster::writeRaster(dem, filename=paste0(file.path(tmp),"/dtm.sdat"),overwrite = TRUE, NAflag = 0)
@@ -11,7 +11,9 @@ filled_DTM <- function(dtm, output, tmp, minslope) {
                             ),
                             show.output.on.console = TRUE, invisible = TRUE,
                             env = env)
+  prjctn <- crs
   filled_dtm <- raster::raster(file.path(tmp, "filled_dtm.sdat"))
+  proj4string(filled_dem) <- prjctn
   raster::writeRaster(filled_dem,filename=paste0(file.path(output),"/filled_dtm.tif"),overwrite = TRUE,NAflag = 0)
   cat(" ",sep = "\n")
   cat("### filled_DTM finished ###")
