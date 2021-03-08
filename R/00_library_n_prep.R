@@ -6,7 +6,8 @@ library<-c("gdalUtils", "glcm","raster","rgdal", "mapview", "sp", "spData",
            "dplyr", "tidyverse", "hrbrthemes", "plyr", "ggridges",
            "plotly", "GGally", "rlas",  "lidR", "rLiDAR", "future",
            "ForestTools", "rrtools", "citr", "lidRplugins",
-           "lidRviewer", "spdplyr", "osmextract", "spatialEco", "RSAGA")
+           "lidRviewer", "spdplyr", "osmextract", "spatialEco", "RSAGA",
+           "listviewer", "rgrass7")
 
 #Install CRAN packages if needed
 inst <- library %in% installed.packages()

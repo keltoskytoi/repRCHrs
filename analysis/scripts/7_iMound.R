@@ -16,8 +16,7 @@ testdtm <- raster(paste0(path_analysis_data_dtm2014_TEST_AREA, lstestarea[[3]]))
 mapview(testdtm)
 plot(testdtm)
 crs(testdtm)
-#CRS arguments:
-#+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs
+#CRS arguments: +proj=utm +zone=32 +datum=WGS84 +units=m +no_defs
 ################################################################################
 ###############################2. filter DTM  mean/low pass#####################
 #let's use a 3x3 moving window
@@ -25,6 +24,10 @@ testdtm_mean <- raster::focal(testdtm, w=matrix(1/(3*3)), fun=mean, na.rm=FALSE)
 mapview(testdtm_mean)
 plot(testdtm_mean)
 crs(testdtm_mean)
+
+raster::writeRaster(testdtm_mean, filename=paste0(file.path(path_analysis_data_dtm2014_iMound),
+                    "/testdtm_mean.tif"), overwrite = TRUE, NAflag = 0)
+
 ################################################################################
 #################################3.invert the filtered DTM######################
 #spatialEco::raster.invert Inverts raster values using the formula: (((x - max(x)) * -1) + min(x)

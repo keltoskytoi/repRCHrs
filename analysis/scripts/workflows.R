@@ -8,19 +8,35 @@ sequenceDiagram
   Note right of ifDTM: Wang & Liu 2006
   pf ifDTM->>diff ifDTM: ifDTM-pf ifDTM
   diff ifDTM->> possible barrows: morphometric rules
-  Note right of diff ifDTM: c=(4piArea)/perimeter2
+  Note right of diff ifDTM: e.g. c=(4piArea)/perimeter2
+")
+
+mermaid("graph TB;
+A[DTM] -->|mean filter| B(fDTM)
+B -->|invert raster| C(ifDTM)
+C -->|fill pits: Wang&Liu 2006| D(pf ifDTM)
+D -->|ifDTM-pf ifDT| E(diff ifDTM)
+E -->|morphometric rules| F(possible barrows)
 ")
 
 #Workflow Davis et al 2019
 mermaid("
 sequenceDiagram
-  DTM->>ifDTM: invert raster
-  Note left of ifDTM: (((x - max(x)) * -1) + min(x)
+  DTM->>iDTM: invert raster
+  Note left of iDTM: (((x - max(x)) * -1) + min(x)
   Note left of deprMaps: uses Monte Carlo Simulation to map depressions
   ifDTM->>deprMaps: SDA Whitebox GAT - multiple versions
   deprMaps->>fdeprMaps: size filter
   fdeprMaps->>possible barrows: comparsion to lu maps
 ")
+
+mermaid("graph TB;
+A[DTM] -->|inverraster| B(iDTM)
+B -->|SDA Whitebox GAT: MC simulation| C(deprMap)
+C -->|size filter| D(fdeprMaps)
+D -->|comparision with lu maps| E(possible barrows)
+")
+
 
 #Workflow Rom et al 2020
 mermaid("
@@ -35,11 +51,16 @@ sequenceDiagram
   thresh diff ifDTM->>possible barrows: invert raster
 ")
 
-
+mermaid("graph TB;
+A[DTM] -->|mean filter| B(fDTM)
+B -->|invert raster| C(ifDTM)
+C -->|fill pits: Wang&Liu 2006| D(pf ifDTM)
+D -->|ifDTM-pf ifDT| E(diff ifDTM)
+E -->|morphometric rules| F(possible barrows)
+")
 
 
 #Workflow of the thesis
-
 mermaid("
 sequenceDiagram
   DTM->>fDTM: filter raster::focal, fun=mean
