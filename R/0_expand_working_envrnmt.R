@@ -43,6 +43,8 @@ paths<-link2GI::initProj(projRootDir = projRootDir,
                                          "analysis/data/dtm2014/AOI_5_rast/",
                                          "analysis/data/dtm2014/AOI_5_masked/",
                                          "analysis/data/dtm2014/iMound/",
+                                         "analysis/data/dtm2014/derivatives/",
+                                         "analysis/data/dtm2014/derivatives/LRM/",
 
                                          "analysis/data/dtm2018/AOI_1/",
                                          "analysis/data/dtm2018/AOI_1_repr/",

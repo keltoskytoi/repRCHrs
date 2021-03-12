@@ -20,7 +20,7 @@ crs(testdtm)
 ################################################################################
 ###############################2. filter DTM  mean/low pass#####################
 #let's use a 3x3 moving window
-testdtm_mean <- raster::focal(testdtm, w=matrix(1/(3*3)), fun=mean, na.rm=FALSE)
+testdtm_mean <- raster::focal(testdtm, w=matrix(1/(3*3), nrow =3, ncol=3), fun=mean, na.rm=FALSE)
 mapview(testdtm_mean)
 plot(testdtm_mean)
 crs(testdtm_mean)
@@ -35,7 +35,7 @@ itDTMm <- spatialEco::raster.invert(testdtm_mean)
 ################################################################################
 #####################4.pit filling of inverse filtered DTM############
 #Freeland et al. 2016 & Rom et al. use Wang and Liu 2006, which is implemented in Whitebox GAT & SAGA
-#link to SAGA
+                                              ####SAGA####
 saga<-linkSAGA(ver_select = TRUE)
 env<-RSAGA::rsaga.env(path = saga$sagaPath)
 
@@ -55,9 +55,27 @@ raster::writeRaster(filled_dtm, filename=paste0(file.path(path_analysis_data_dtm
 crs(filled_dtm) <- crs(testdtm)
 filled_dtm
 
+#Module Fill Sinks XXL (Wang & Liu)
+minslope = 0
+raster::writeRaster(itDTMm, filename=paste0(file.path(path_tmp),"/itDTMm.sdat"),overwrite = TRUE, NAflag = 0)
+RSAGA::rsaga.geoprocessor(lib = "ta_preprocessor", module = 5,
+                          param = list(ELEV =    paste(path_tmp,"/itDTMm.sgrd", sep = ""),
+                                       FILLED =  paste(path_tmp,"/filled_demXXL.sgrd", sep = ""),
+                                       MINSLOPE = minslope))
 
+filled_dtm <- raster::raster(file.path(path_tmp, "filled_demXXL.sdat"))
+raster::writeRaster(filled_dtm, filename=paste0(file.path(path_analysis_data_dtm2014_iMound),"/filled_dtm_W&LXXL.tif"), overwrite = TRUE, NAflag = 0)
 
+crs(filled_dtm) <- crs(testdtm)
+filled_dtm
 
+#+other from SAGA
+
+#whiteboxR####
+
+wbt_fill_depressions()
+wbt_fill_depressions_planchon_and_darboux()
+wbt_fill_depressions_wang_and_liu()
 
 #also in R
 filled_dtm_R <- SinkFill(itDTMm)
@@ -72,16 +90,15 @@ plot(DEM_nosink)
 plot(DEM_with_sink - DEM_nosink)
 plot(partitions)
 
-
-
-
-
-#5.inverse DTM - pit-filled DTM####
+################################################################################
+##############################5.inverse DTM - pit-filled DTM####################
 poss_mound_layer_1 <- itDTMm - filled_dtm
-raster::writeRaster(poss_mound_layer_1, filename=paste0(file.path(path_analysis_data_dtm2014_iMound),"/poss_mound_layer_1.tif"), overwrite = TRUE, NAflag = 0)
-
-
-#6. thresholds for height, and area?
+raster::writeRaster(poss_mound_layer_1,
+                    filename=paste0(file.path(path_analysis_data_dtm2014_iMound),
+                                    "/poss_mound_layer_1.tif"),
+                                     overwrite = TRUE, NAflag = 0)
+################################################################################
+##########################6. thresholds for height, and area####################
 poss_mound_layer_1
 #class      : RasterLayer
 #dimensions : 10000, 10000, 1e+08  (nrow, ncol, ncell)
@@ -162,9 +179,6 @@ plot(classified_poss_mound_layer_1)
 
 col <- c("red", "green", "white")
 plot(classified_poss_mound_layer_2, col = col)
-
-
-
 
 
 #reclassify raster 2
