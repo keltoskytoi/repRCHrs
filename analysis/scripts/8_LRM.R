@@ -1,5 +1,18 @@
-####Local Relief Model####
-#1) DTM -> smoothing focal filter 25x25 m after Hesse 2010 ####
+################################Local Relief Model##############################
+###################################SHORTCUTS####################################
+lstestarea <-  list.files(file.path(path_analysis_data_dtm2014_TEST_AREA),
+                          pattern = ".tif")
+lsLRM <- list.files(file.path(path_analysis_data_dtm2014_derivatives_LRM),
+                    pattern = ".tif")
+################################################################################
+###################################test area####################################
+testdtm <- raster(paste0(path_analysis_data_dtm2014_TEST_AREA, lstestarea[[3]]))
+testdtm
+#values     : 181.3, 259.38  (min, max)
+names(testdtm) <- "testdtm"
+########################1) DTM -> smoothing focal filter########################
+#25x25 m after Hesse 2010; our area is quite flat and we are looking
+#for delicate structures 3 and 5 was tested but
 
 #mean or low pass filter with a 3x3 moving window
 testdtm_mean3 <- raster::focal(testdtm, w=matrix(1/(3*3), nrow = 3, ncol =3), fun=mean, na.rm=FALSE)
@@ -9,7 +22,7 @@ raster::writeRaster(testdtm_mean3, filename=paste0(file.path(path_analysis_data_
 testdtm_mean3
 #values: 20.1458, 28.81086  (min, max)
 
-#mean or low pass filter with a 5x5 moving window
+#mean or low pass filter with a 5x5 moving window####
 testdtm_mean5 <- raster::focal(testdtm, w=matrix(1/(5*5), nrow=5,ncol=5), fun=mean, na.rm=FALSE)
 raster::writeRaster(testdtm_mean5, filename=paste0(file.path(path_analysis_data_dtm2014_derivatives_LRM),
                                                    "/testdtm_mean5.tif"), overwrite = TRUE, NAflag = 0)
@@ -104,7 +117,7 @@ plot(st_geometry(DiffMap_contour01), add = TRUE)
 DiffMap_contour05
 #geometry type:  LINESTRING
 DiffMap_contour05sp <- as(st_geometry(DiffMap_contour05), "Spatial")
-#class       : SpatialLines
+#class: SpatialLines
 
 DiffMap_contour02
 DiffMap_contour02sp <- as(st_geometry(DiffMap_contour02), "Spatial")
@@ -149,19 +162,23 @@ DiffMap_contour01point <- st_cast(st_sfc(DiffMap_contour01mpoint), "POINT")
 class(st_geometry(DiffMap_contour01point, quiet = TRUE))
 #"sfc_POINT" "sfc"
 
-
-
-
 #4.2 Extract/mask elevation from the original DTM (testDTM)####
 #contourpoints05 <- st_extract(DiffMap, DiffMap_contour05point)
 #contourpoints02 <- st_extract(DiffMap, DiffMap_contour02point)
 #contourpoints01 <- st_extract(DiffMap, DiffMap_contour01point)
 
-SER05xtr <- extract(testdtm, DiffMap_contour05sp)
+#DiffMap_contour05sp: SpatialLines
+#contour05: SpatialLinesDataFrame
+#raster::extract -> SpatialLines
+#raster::mask -> Raster* object or a Spatial* object
+
+SER05xtr <- raster::extract(testdtm, DiffMap_contour05sp)
 
 
 #or
-SER05 <- mask(testdtm, contour05)
+SER05 <- mask(x=testdtm, mask=contour05, filename=paste0(file.path(path_analysis_data_dtm2014_derivatives_LRM),
+                                                         "/SER05.tif"), overwrite = TRUE, NAflag = 0)
+
 SER02 <- mask(testdtm, contour02)
 SER01 <- mask(testdtm, contour01)
 
